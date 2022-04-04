@@ -25,6 +25,12 @@ class Register extends Component {
   //Call the Will Mount to set the auth Flag to false
   componentWillMount() {
     console.log("compWillMount");
+
+    //testing backend
+    axios.get("/users").then((response) => {
+      console.log(response.data);
+    });
+
     this.setState({
       authFlag: false,
     });
