@@ -10,6 +10,13 @@
   height: 50px;
   line-height: 50px;
 }
+/* .form-control{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 2 auto;
+  margin-bottom: 2rem;
+} */
 .main-div {
   background: #ffffff none repeat scroll 0 0;
   border-radius: 2px;
@@ -17,6 +24,14 @@
   max-width: 38%;
   padding: 50px 70px 70px 71px;
   border: 2px solid black;
+}
+
+.main-div1 {
+  
+  margin: 10px auto 30px;
+  max-width: 38%;
+  padding: 50px 70px 70px 71px;
+   
 }
 
 .login-form .form-group {
@@ -68,4 +83,10 @@
   padding-top: 10rem;
   
   
+}
+.heading{
+  color:brown;
+  font-size:5rem;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align: center;
 }

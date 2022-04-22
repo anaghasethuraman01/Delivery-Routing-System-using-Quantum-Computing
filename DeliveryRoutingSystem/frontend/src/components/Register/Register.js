@@ -23,17 +23,22 @@ class Register extends Component {
     this.validateLogin = this.validateLogin.bind(this);
   }
   //Call the Will Mount to set the auth Flag to false
-  componentWillMount() {
-    console.log("compWillMount");
+  // componentWillMount() {
+  //   console.log("compWillMount");
 
-    //testing backend
-    axios.get("/users").then((response) => {
-      console.log(response.data);
-    });
+  //   //testing backend
+  //   axios.get("/users").then((response) => {
+  //     console.log(response.data);
+  //   });
 
-    this.setState({
-      authFlag: false,
-    });
+  //   this.setState({
+  //     authFlag: false,
+  //   });
+  // }
+
+  login = (e) => {
+    e.preventDefault();
+    window.location.href='/login';
   }
   //username change handler to update state variable with the text entered by the user
   usernameChangeHandler = (e) => {
@@ -107,9 +112,9 @@ class Register extends Component {
     console.log("render called");
     let redirectVar = null;
     let errorMsg = "";
-    if (cookie.load("cookie")) {
-      redirectVar = <Redirect to="/home" />;
-    }
+    // if (cookie.load("cookie")) {
+    //   redirectVar = <Redirect to="/home" />;
+    // }
     // if (this.state.loadError) {
     //   errorMsg = "Incorrect login credentials";
     // } else {
@@ -118,7 +123,7 @@ class Register extends Component {
 
     return (
       <div>
-        {redirectVar}
+        {/* {redirectVar} */}
         <div className="container body-login">
           <div className="login-form">
             <div className="main-div">

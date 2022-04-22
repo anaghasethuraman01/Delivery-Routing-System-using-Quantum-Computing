@@ -15,40 +15,40 @@ class Navbar extends Component {
   };
   render() {
     //if Cookie is set render Logout Button
-    let navLogin = null;
-    if (cookie.load("cookie")) {
-      console.log("Able to read cookie");
-      navLogin = (
-        <ul className="nav navbar-nav navbar-right">
-          <li>
-            <Link to="/" onClick={this.handleLogout}>
-              <span className="glyphicon glyphicon-user"></span>Logout
-            </Link>
-          </li>
-        </ul>
-      );
-    } else {
-      //Else display login button
-      console.log("Not Able to read cookie");
-      navLogin = (
-        <ul className="nav navbar-nav navbar-right ">
-          <li>
-            <Link to="/login">
-              <span className="glyphicon glyphicon-log-in"></span> Login
-            </Link>
-          </li>
-        </ul>
-      );
-    }
-    let redirectVar = null;
-    if (cookie.load("cookie")) {
-      redirectVar = <Redirect to="/home" />;
-    } else {
-      redirectVar = <Redirect to="/register" />;
-    }
+    // let navLogin = null;
+    // if (cookie.load("cookie")) {
+    //   console.log("Able to read cookie");
+    //   navLogin = (
+    //     <ul className="nav navbar-nav navbar-right">
+    //       <li>
+    //         <Link to="/" onClick={this.handleLogout}>
+    //           <span className="glyphicon glyphicon-user"></span>Logout
+    //         </Link>
+    //       </li>
+    //     </ul>
+    //   );
+    // } else {
+    //   //Else display login button
+    //   console.log("Not Able to read cookie");
+    //   navLogin = (
+    //     <ul className="nav navbar-nav navbar-right ">
+    //       <li>
+    //         <Link to="/login">
+    //           <span className="glyphicon glyphicon-log-in"></span> Login
+    //         </Link>
+    //       </li>
+    //     </ul>
+    //   );
+    // }
+    // let redirectVar = null;
+    // if (cookie.load("cookie")) {
+    //   redirectVar = <Redirect to="/home" />;
+    // } else {
+    //   redirectVar = <Redirect to="/register" />;
+    // }
     return (
       <div >
-        {redirectVar}
+        {/* {redirectVar} */}
         <nav className="navbar navbar-inverse ">
           <div className="container-fluid">
             <div className="navbar-header">
@@ -60,7 +60,8 @@ class Navbar extends Component {
               </li>
               
             </ul>
-            {navLogin}
+            <h1></h1>
+            {/* {navLogin} */}
           </div>
         </nav>
       </div>
