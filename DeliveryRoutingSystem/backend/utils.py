@@ -14,6 +14,13 @@ from qiskit.algorithms.optimizers import SPSA
 from qiskit_optimization import QuadraticProgram
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
 
+def getRoute(n,k,algo):
+    if algo == 'vqe':
+        vqe(n,k)
+    elif algo == 'qaoa':
+        qaoa(n,k)
+    elif algo == 'classical':
+        classical(n,k)
 def getRandomNodesFromDb(n):
     nodeMap = {}
     addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
@@ -305,5 +312,6 @@ def get_classical_solution(n,k,instance):
         print("CPLEX may be missing.")
     return x,z,classical_cost
 #classical(5,1)
-qaoa(3,1)
+#qaoa(3,1)
 #vqe(3,1)
+getRoute(3,1,'classical')
