@@ -9,7 +9,7 @@ from cplex.exceptions import CplexError
 # Qiskit packages
 from qiskit import BasicAer
 from qiskit.utils import QuantumInstance, algorithm_globals
-from qiskit.algorithms import NumPyMinimumEigensolver, QAOA
+from qiskit.algorithms import NumPyMinimumEigensolver, QAOA, VQE
 from qiskit.algorithms.optimizers import SPSA
 from qiskit_optimization import QuadraticProgram
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
@@ -161,7 +161,7 @@ def binary_representation(n,K,instance, x_sol=0):
 
 
 
-def construct_problem(Q, g, c, qubit_needed):
+def construct_problem(Q, g, c, qubit_needed,n):
     qp = QuadraticProgram()
     for i in range(n * (n - 1)):
         qp.binary_var(str(i))
@@ -181,7 +181,7 @@ def get_optimizer(algo,quantum_instance):
         optimizer = MinimumEigenOptimizer(min_eigen_solver=qaoa)
     return optimizer
 
-def solve_problem(qp,algo):
+def solve_problem(qp,algo,n,k,instance,):
     algorithm_globals.random_seed = 10598
     quantum_instance = QuantumInstance(
         BasicAer.get_backend("qasm_simulator"),
@@ -193,7 +193,7 @@ def solve_problem(qp,algo):
     optimizer = get_optimizer(algo,quantum_instance)
     result = optimizer.solve(qp)
     # compute cost of the obtained result
-    _, _, _, level = binary_representation(x_sol=result.x)
+    _, _, _, level = binary_representation(n,k,instance,x_sol=result.x)
     return result, level
 
 def checkBinaryRepresentation(z):
@@ -233,14 +233,26 @@ def visualize_solution(xc, yc, x, C, n, K, title_str, nodeMap):
     plt.title(title_str+' cost = ' + str(int(C * 100) / 100.))
     plt.show()
 
-def vqe(n,k,nodes):
+def vqe(n,k):
     print('**********************vqe implementation**********************')
     qubit_needed = k*(k-1)
     xc, yc, instance, nodeMap = getRandomNodesFromDb(n)
+    #get classical result
+    x,z,classical_cost = get_classical_solution(n,k,instance)
     Q, g, c, binary_cost = binary_representation(n,k,instance, x_sol=z)
-    qp = quantum_optimizer.construct_problem(Q, g, c,qubit_needed)
-    quantum_solution, quantum_cost = solve_problem(qp,'vqe')
+    qp = construct_problem(Q, g, c,qubit_needed,n)
+    quantum_solution, quantum_cost = solve_problem(qp,'vqe',n,k,instance)
     print(quantum_solution, quantum_cost)
+    x_quantum = np.zeros(n**2)
+    kk = 0
+    for ii in range(n ** 2):
+        if ii // n != ii % n:
+            x_quantum[ii] = quantum_solution[kk]
+            kk +=  1
+
+
+    # visualize the solution
+    visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
 
 
 
@@ -256,6 +268,14 @@ def classical(n,k):
     # Solve the problem in a classical fashion via CPLEX
     x = None
     z = None
+    x,z,classical_cost = get_classical_solution(n,k,instance)
+    if x is not None:
+        visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
+
+def get_classical_solution(n,k,instance):
+    x = None
+    z = None
+    classical_cost = None
     try:
         x,classical_cost = cplex_solution(n,k,instance)
 
@@ -265,8 +285,6 @@ def classical(n,k):
         print(z)
     except:
         print("CPLEX may be missing.")
-    if x is not None:
-        visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
-
-classical(5,1)
-# classical(3,1)
+    return x,z,classical_cost
+#classical(5,1)
+vqe(3,1)
