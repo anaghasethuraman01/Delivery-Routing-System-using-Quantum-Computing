@@ -287,4 +287,4 @@ def get_classical_solution(n,k,instance):
         print("CPLEX may be missing.")
     return x,z,classical_cost
 #classical(5,1)
-vqe(3,1)
+vqe(4,1)
