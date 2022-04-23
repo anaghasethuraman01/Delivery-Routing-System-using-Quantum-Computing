@@ -16,7 +16,7 @@ from qiskit_optimization.algorithms import MinimumEigenOptimizer
 
 def getRandomNodesFromDb(n):
     nodeMap = {}
-    addresses = ['Los Angeles', 'Sacramento', 'Charlotte']
+    addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
     geolocator = Nominatim(user_agent="VRP Using QC")
     xc = np.zeros([n])
     yc = np.zeros([n])
@@ -264,4 +264,4 @@ def classical(n,k):
     if x is not None:
         visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
 
-classical(3,1)
+classical(5,1)
