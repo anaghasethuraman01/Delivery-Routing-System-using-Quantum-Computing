@@ -260,6 +260,7 @@ def vqe(n,k):
 
     # visualize the solution
     visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
+    return xc, yc, x_quantum, quantum_cost, nodeMap
 
 
 
