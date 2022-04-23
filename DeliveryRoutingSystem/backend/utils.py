@@ -161,17 +161,27 @@ def binary_representation(n,K,instance, x_sol=0):
 
 
 
-def construct_problem(Q, g, c) -> QuadraticProgram:
+def construct_problem(Q, g, c, qubit_needed):
     qp = QuadraticProgram()
     for i in range(n * (n - 1)):
         qp.binary_var(str(i))
     qp.objective.quadratic = Q
     qp.objective.linear = g
     qp.objective.constant = c
-    qp.objective.num_qubits=12
+    qp.objective.num_qubits=qubit_needed
     return qp
 
-def solve_problem(qp):
+def get_optimizer(algo,quantum_instance):
+    optimizer = None
+    if algo == 'vqe':
+        vqe = VQE(quantum_instance=quantum_instance)
+        optimizer = MinimumEigenOptimizer(min_eigen_solver=vqe)
+    elif algo == 'qaoa':
+        qaoa = QAOA(quantum_instance=quantum_instance)
+        optimizer = MinimumEigenOptimizer(min_eigen_solver=qaoa)
+    return optimizer
+
+def solve_problem(qp,algo):
     algorithm_globals.random_seed = 10598
     quantum_instance = QuantumInstance(
         BasicAer.get_backend("qasm_simulator"),
@@ -179,12 +189,12 @@ def solve_problem(qp):
         seed_transpiler=algorithm_globals.random_seed,
     )
 
-    qaoa = QAOA(quantum_instance=quantum_instance)
-    optimizer = MinimumEigenOptimizer(min_eigen_solver=qaoa)
+
+    optimizer = get_optimizer(algo,quantum_instance)
     result = optimizer.solve(qp)
     # compute cost of the obtained result
     _, _, _, level = binary_representation(x_sol=result.x)
-    return result, level, qaoa
+    return result, level
 
 def checkBinaryRepresentation(z):
     # Check if the binary representation is correct
@@ -225,19 +235,13 @@ def visualize_solution(xc, yc, x, C, n, K, title_str, nodeMap):
 
 def vqe(n,k,nodes):
     print('**********************vqe implementation**********************')
-    # Solve the problem in a classical fashion via CPLEX
-    x = None
-    z = None
-    try:
-        x,classical_cost = cplex_solution()
-        # Put the solution in the z variable
-        z = [x[ii] for ii in range(n**2) if ii//n != ii%n]
-        # Print the solution
-        print(z)
-    except:
-        print("CPLEX may be missing.")
-    
-    xc, yc, instance = initializer.generate_instance()
+    qubit_needed = k*(k-1)
+    xc, yc, instance, nodeMap = getRandomNodesFromDb(n)
+    Q, g, c, binary_cost = binary_representation(n,k,instance, x_sol=z)
+    qp = quantum_optimizer.construct_problem(Q, g, c,qubit_needed)
+    quantum_solution, quantum_cost = solve_problem(qp,'vqe')
+    print(quantum_solution, quantum_cost)
+
 
 
 def qaoa(n,k,nodes):
@@ -265,3 +269,4 @@ def classical(n,k):
         visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
 
 classical(5,1)
+# classical(3,1)
