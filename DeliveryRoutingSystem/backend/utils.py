@@ -256,8 +256,26 @@ def vqe(n,k):
 
 
 
-def qaoa(n,k,nodes):
-    print('qaoa implementation')
+def qaoa(n,k):
+    print('**********************qaoa implementation**********************')
+    qubit_needed = k*(k-1)
+    xc, yc, instance, nodeMap = getRandomNodesFromDb(n)
+    #get classical result
+    x,z,classical_cost = get_classical_solution(n,k,instance)
+    Q, g, c, binary_cost = binary_representation(n,k,instance, x_sol=z)
+    qp = construct_problem(Q, g, c,qubit_needed,n)
+    quantum_solution, quantum_cost = solve_problem(qp,'qaoa',n,k,instance)
+    print(quantum_solution, quantum_cost)
+    x_quantum = np.zeros(n**2)
+    kk = 0
+    for ii in range(n ** 2):
+        if ii // n != ii % n:
+            x_quantum[ii] = quantum_solution[kk]
+            kk +=  1
+
+
+    # visualize the solution
+    visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
 
 def admm(n,k,nodes):
     print('admm implementation')
@@ -287,4 +305,5 @@ def get_classical_solution(n,k,instance):
         print("CPLEX may be missing.")
     return x,z,classical_cost
 #classical(5,1)
-vqe(4,1)
+qaoa(3,1)
+#vqe(3,1)
