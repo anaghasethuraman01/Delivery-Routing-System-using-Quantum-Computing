@@ -16,11 +16,11 @@ from qiskit_optimization.algorithms import MinimumEigenOptimizer
 
 def getRoute(n,k,algo):
     if algo == 'vqe':
-        vqe(n,k)
+        return vqe(n,k)
     elif algo == 'qaoa':
-        qaoa(n,k)
+        return qaoa(n,k)
     elif algo == 'classical':
-        classical(n,k)
+       return classical(n,k)
 def getRandomNodesFromDb(n):
     nodeMap = {}
     addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
@@ -39,7 +39,7 @@ def getRandomNodesFromDb(n):
             instance[ii, jj] = math.sqrt((xc[ii] - xc[jj]) ** 2 + (yc[ii] - yc[jj]) ** 2)
             instance[jj, ii] = instance[ii, jj]
 
-    print('Input nodes:\n',instance)
+    # print('Input nodes:\n',instance)
 
     return xc, yc, instance, nodeMap
     
@@ -259,7 +259,7 @@ def vqe(n,k):
 
 
     # visualize the solution
-    visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
+    # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     return xc, yc, x_quantum, quantum_cost, nodeMap
 
 
@@ -281,9 +281,10 @@ def qaoa(n,k):
             x_quantum[ii] = quantum_solution[kk]
             kk +=  1
 
-
     # visualize the solution
+
     visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
+    return xc, yc, x_quantum, quantum_cost, nodeMap
 
 def admm(n,k,nodes):
     print('admm implementation')
@@ -315,4 +316,4 @@ def get_classical_solution(n,k,instance):
 #classical(5,1)
 #qaoa(3,1)
 #vqe(3,1)
-getRoute(3,1,'classical')
+# getRoute(3,1,'classical')

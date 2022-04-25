@@ -14,50 +14,85 @@ class Home extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-      username: "",
-      password: "",
-      message:null,
+      destinations: 0,
+      vehicles: 0,
+      algorithm:"",
       authFlag: false,
       validationErr: {},
     };
     //Bind the handlers to this class
-    
-
+    this.destinationsChangeHandler = this.destinationsChangeHandler.bind(this);
+    this.vehiclesChangeHandler = this.vehiclesChangeHandler.bind(this);
+    this.algorithmChangeHandler = this.algorithmChangeHandler.bind(this);
+    this.optimize = this.optimize.bind(this);
   }
  
-  //username change handler to update state variable with the text entered by the user
+  //no. of destinations change handler to update state variable with the text entered by the user
+  destinationsChangeHandler = (e) => {
+    this.setState({
+      destinations: e.target.value,
+    });
+  };
 
-  //password change handler to update state variable with the text entered by the user
+  //no. of vehicles change handler to update state variable with the text entered by the user
+  vehiclesChangeHandler = (e) => {
+    this.setState({
+      vehicles: e.target.value,
+    });
+  };
+
+   //algorithm selected change handler to update state variable with the text entered by the user
+  algorithmChangeHandler = (e) => {
+    this.setState({
+      algorithm: e.target.value,
+    });
+  };
   
 
-  optimze = (e) =>{
-    e.preventDefault();
-    window.location.href='/maps';
-  }
+  optimize = (e) =>{    
+    axios.get("http://127.0.0.1:5000/getRoute/"+this.state.destinations+"/"+this.state.vehicles+"/"+this.state.algorithm, 
+         { 
+          }).then((response) => {
+            response = JSON.parse(JSON.stringify(response.data))
+            localStorage.setItem("xc", response.xc)
+            localStorage.setItem("yc", response.yc)
+            localStorage.setItem("x_quantum", response.x_quantum)
+            localStorage.setItem("quantum_cost", response.quantum_cost)
+            localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap))
+            this.props.history.push({
+      pathname: '/maps',
+      state: {
+        xc: response.xc,
+        yc: response.yc,
+        x_quantum: response.x_quantum,
+        quantum_cost:response.quantum_cost,
+        nodeMap:response.nodeMap
+      }  
+  })
+
+  })
+}
 
 
 
   render() {
-    
 
     return (
-      
       <div className="background1" >
         
         <h1 className="heading">Optimize Routes, Save Time</h1>
         <div className = " main-div1">
-        
-          Number of Destinations: <Input className="form-control" type="text" name="username"   ></Input>
-          Number of Vehicles: <Input className="form-control" type="text" name="username"   ></Input>
+          Number of Destinations: <Input className="form-control" type="number" name="destinations"  onChange={this.destinationsChangeHandler} ></Input>
+          Number of Vehicles: <Input className="form-control" type="number" name="vehicles"  onChange={this.vehiclesChangeHandler}  ></Input>
           Choose Algorithm:  :
-            <select className="form-control" name=""  >
-            <option value="">Select </option> 
-              <option value="">QAOA</option> 
-              <option value="" >VQE</option>
-              <option value=""  >ADMM</option>
+            <select className="form-control" name="algo"  onChange={this.algorithmChangeHandler}  >
+            <option value="Select">Select </option> 
+              <option value="qaoa">QAOA</option> 
+              <option value="vqe" >VQE</option>
+              <option value="admm" >ADMM</option>
             </select>
             <br/>
-            <Button variant="success" onClick={this.optimze}>Optimize Route</Button>
+            <Button variant="success" onClick={this.optimize}>Optimize Route</Button>
             <br/>
        
         </div>

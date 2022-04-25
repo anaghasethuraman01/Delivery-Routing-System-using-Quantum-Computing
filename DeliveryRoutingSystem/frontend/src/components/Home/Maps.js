@@ -14,14 +14,15 @@ class Maps extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-      username: "",
-      password: "",
-      message:null,
-      authFlag: false,
-      validationErr: {},
+      xc: this.props.location.state.xc,
+      yc: this.props.location.state.yc,
+      x_quantum: this.props.location.state.x_quantum,
+      quantum_cost:  this.props.location.state.quantum_cost,
+      nodeMap:  this.props.location.state.nodeMap,
     };
     //Bind the handlers to this class
     
+    this.results = this.results.bind(this);
 
   }
  
