@@ -8,6 +8,7 @@ import { Button} from 'react-bootstrap';
 import Navbar from '../LandingPage/Navbar';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker'
+import MapRenderer from './MapRenderer'
 
 //Define a Login Component
 class Maps extends Component {
@@ -51,39 +52,55 @@ render(){
       lng:this.state.yc[i]
     });
   }
+
   console.log(this.state.points);
 
+  // return (
+  //   <div className="App">
+  //     <GoogleMapReact
+  //       bootstrapURLKeys={{
+  //         key: "AIzaSyCW_z0jpZ5YrhNdywn5D8b7p7Qc39CIogg",
+  //         language: "en",
+  //         region: "US"
+  //       }}
+  //       defaultCenter={{ lat: 39.50, lng: -98.35}}
+  //       defaultZoom={-20}
+  //     >
+  //       {this.state.points.map(({ lat, lng, id, title }) => {
+  //         return (
+  //           <Marker
+  //             key={id}
+  //             lat={lat}
+  //             lng={lng}
+  //             text={id}
+  //             tooltip={title}
+  //           />
+  //         );
+  //       })}
+  //     </GoogleMapReact>
+  //   </div>
+    
+  // );
+
+
   return (
-    <div className="App">
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: "AIzaSyCW_z0jpZ5YrhNdywn5D8b7p7Qc39CIogg",
-          language: "en",
-          region: "US"
-        }}
-        defaultCenter={{ lat: 39.50, lng: -98.35}}
-        defaultZoom={-20}
-      >
-        {this.state.points.map(({ lat, lng, id, title }) => {
-          return (
-            <Marker
-              key={id}
-              lat={lat}
-              lng={lng}
-              text={id}
-              tooltip={title}
-            />
-            
-          );
-        })}
-      </GoogleMapReact>
+    <div>
+    <MapRenderer
+      googleMapURL={
+        'https://maps.googleapis.com/maps/api/js?key=AIzaSyCW_z0jpZ5YrhNdywn5D8b7p7Qc39CIogg' +
+        '&libraries=geometry,drawing,places'
+      }
+      markers={this.state.points}
+      loadingElement={<div style={{height: `100%`}}/>}
+      containerElement={<div style={{height: "80vh"}}/>}
+      mapElement={ <div style={{height: `100%`}}/>}
+      defaultCenter={{lat: 25.798939, lng: -80.291409}}
+      defaultZoom={15}
+    />
     </div>
   );
 
       }
     }
 
-
- 
-//export Login Component
 export default Maps;

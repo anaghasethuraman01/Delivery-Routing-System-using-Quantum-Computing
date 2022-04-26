@@ -54,6 +54,7 @@ class Home extends Component {
          { 
           }).then((response) => {
             response = JSON.parse(JSON.stringify(response.data))
+            console.log(response)
             localStorage.setItem("xc", response.xc)
             localStorage.setItem("yc", response.yc)
             localStorage.setItem("x_quantum", response.x_quantum)
