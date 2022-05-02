@@ -64,7 +64,8 @@ function Screen(props) {
                 <Label></Label>
             }
             <div className="row">
-                <Button variant="success" onClick={redirectTo}>See Maps</Button>
+                <Button variant="success" onClick={()=>redirectTo()}>See Maps</Button>
+              
             </div>
        
         </div>
