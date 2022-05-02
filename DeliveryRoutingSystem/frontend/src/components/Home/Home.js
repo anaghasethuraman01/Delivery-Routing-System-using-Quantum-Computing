@@ -4,7 +4,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { Input} from 'reactstrap';
-import { Button} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import Navbar from '../LandingPage/Navbar';
 //Define a Login Component
 class Home extends Component {
@@ -19,7 +19,8 @@ class Home extends Component {
       algorithm:"",
       authFlag: false,
       validationErr: {},
-      redirect: null
+      redirect: null,
+      show:false
     };
     //Bind the handlers to this class
     this.destinationsChangeHandler = this.destinationsChangeHandler.bind(this);
@@ -27,7 +28,9 @@ class Home extends Component {
     this.algorithmChangeHandler = this.algorithmChangeHandler.bind(this);
     this.optimize = this.optimize.bind(this);
   }
- 
+  componentDidMount() {
+    
+  }
   //no. of destinations change handler to update state variable with the text entered by the user
   destinationsChangeHandler = (e) => {
     this.setState({
@@ -41,7 +44,12 @@ class Home extends Component {
       vehicles: e.target.value,
     });
   };
-
+  checkConnection = () => {
+    console.log("hii")
+    this.setState({
+      show : true 
+      });
+  }
    //algorithm selected change handler to update state variable with the text entered by the user
   algorithmChangeHandler = (e) => {
     this.setState({
@@ -103,7 +111,7 @@ class Home extends Component {
 
 
   render() {
-
+    //alert("Please Check your connection to quantum computer !")
     return (
       <div className="background1" >
         {this.state.redirect}
@@ -117,10 +125,26 @@ class Home extends Component {
               <option value="qaoa">QAOA</option> 
               <option value="vqe" >VQE</option>
               <option value="admm" >ADMM</option>
+              <option value="cplex" >CPLEX</option>
             </select>
             <br/>
             <Button variant="success" onClick={this.optimize}>Optimize Route</Button>
             <br/>
+            <div className = "connectbtn">
+            <Button  variant="success" onClick={this.checkConnection}>Check connection</Button>
+            </div>
+            <br/>
+             <div>
+              <Modal 
+              show = "true" >
+                <Modal.Header closeButton></Modal.Header>
+                
+                <Modal.Body>
+                <h1>Hello!</h1>
+                </Modal.Body>
+                
+              </Modal>
+              </div>
        
         </div>
       </div>
