@@ -39,6 +39,7 @@ def getRoute(n, k, algo):
           }
      myResponse = flask.make_response('Response')
      myResponse.access_control_allow_origin = 'http://localhost:3000'
+     # myResponse.access_control_allow_origin = 'http://localhost:3000/home'
      myResponse.data = json.dumps(res, cls=NumpyEncoder)
      return myResponse
      
