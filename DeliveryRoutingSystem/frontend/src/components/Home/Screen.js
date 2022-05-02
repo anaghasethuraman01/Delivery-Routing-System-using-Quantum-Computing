@@ -11,17 +11,12 @@ function Screen(props) {
   //call the constructor method
     const[qubits, setQubits] = useState(props.location.state.qubit_needed);
     const[route, setRoute] = useState('');
-    const[algo, setAlgo] = useState(props.location.state.algo);
+    const[algo, setAlgo] = useState(props.location.state.algo.toUpperCase());
     const[redirectVal, setRedirectVal] = useState(null);
     const[quantumComputer, setQuantumComputer] = useState('Qiskit');
-    // useEffect(()=> {
-    //     setAlgo();
-    //     if(props.location.state.algo == 'classical') {
-    //         setQubits();
-    //         setQuantumComputer('Qiskit');
-
-    //     }
-    // },[])
+    useEffect(()=> {
+        
+    },[])
     const redirectTo = (e) => {
         let state = {};
         if(algo == 'classical') {
@@ -52,18 +47,24 @@ function Screen(props) {
         {redirectVal}
         <h1 className="heading">{algo} statistics for {quantumComputer}</h1>
         <div className = " main-div1">
-            <div className = 'row'>
-                {algo}
-            </div>
-            {/* {
+            {
                 algo != 'classical'?
-                <div className = 'row'>
-                    <h3>Qubits:  {qubits}</h3>
-                </div> :
+                <div>
+                    <div className = 'row'>
+                        <h3>Qubits:  {qubits}</h3>
+                    </div> <br></br>
+                    <div className = 'row'>
+                        <h3>Quantum Cost:  {props.location.state.quantum_cost}</h3>
+                    </div><br></br>
+                    <div className = 'row'>
+                        <h3>xc:  {props.location.state.xc}</h3>
+                    </div> <br></br>
+                </div>
+                :
                 <Label></Label>
-            } */}
+            }
             <div className="row">
-                <Button variant="success" onClick={redirectTo()}>See Maps</Button>
+                <Button variant="success" onClick={redirectTo}>See Maps</Button>
             </div>
        
         </div>

@@ -19,6 +19,7 @@ class Home extends Component {
       algorithm:"",
       authFlag: false,
       validationErr: {},
+      redirect: null
     };
     //Bind the handlers to this class
     this.destinationsChangeHandler = this.destinationsChangeHandler.bind(this);
@@ -84,10 +85,17 @@ class Home extends Component {
               localStorage.setItem("qubit_needed", response.qubit_needed)
               localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap))
             }
-            this.props.history.push({
-                pathname: '/screen',
-                state: json
-            })
+            let val = {
+              pathname: '/screen',
+              state: json
+            }
+            this.setState({
+              redirect: <Redirect to={val}/>
+            });
+            // this.props.history.push({
+            //     pathname: '/screen',
+            //     state: json
+            // })
 
   })
 }
@@ -98,7 +106,7 @@ class Home extends Component {
 
     return (
       <div className="background1" >
-        
+        {this.state.redirect}
         <h1 className="heading">Optimize Routes, Save Time</h1>
         <div className = " main-div1">
           Number of Destinations: <Input className="form-control" type="number" name="destinations"  onChange={this.destinationsChangeHandler} ></Input>

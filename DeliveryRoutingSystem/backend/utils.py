@@ -242,7 +242,7 @@ def visualize_solution(xc, yc, x, C, n, K, title_str, nodeMap):
 
 def vqe(n,k):
     print('**********************vqe implementation**********************')
-    qubit_needed = k*(k-1)
+    qubit_needed = n*(n-1)
     xc, yc, instance, nodeMap = getRandomNodesFromDb(n)
     #get classical result
     x,z,classical_cost = get_classical_solution(n,k,instance)
@@ -266,7 +266,7 @@ def vqe(n,k):
 
 def qaoa(n,k):
     print('**********************qaoa implementation**********************')
-    qubit_needed = k*(k-1)
+    qubit_needed = n*(n-1)
     xc, yc, instance, nodeMap = getRandomNodesFromDb(n)
     #get classical result
     x,z,classical_cost = get_classical_solution(n,k,instance)
