@@ -21,14 +21,14 @@ def members():
 @app.route('/getRoute/<n>/<k>/<algo>', methods=['GET'])
 def getRoute(n, k, algo):
      xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed = utils.getRoute(int(n),int(k),algo)
-     if(algo == 'classical' {
+     res = {}
+     if(algo == 'classical') :
           res = {
                'x': xc,
                'z': yc,
                'classical_cost': x_quantum
           }
-     })
-     else {
+     else :
           res = {
                "xc": xc,
                "yc": yc,
@@ -37,7 +37,6 @@ def getRoute(n, k, algo):
                "nodeMap": nodeMap,
                "qubit_needed": qubit_needed
           }
-     }
      myResponse = flask.make_response('Response')
      myResponse.access_control_allow_origin = 'http://localhost:3000'
      myResponse.data = json.dumps(res, cls=NumpyEncoder)

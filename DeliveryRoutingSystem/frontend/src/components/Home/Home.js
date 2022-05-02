@@ -55,21 +55,39 @@ class Home extends Component {
           }).then((response) => {
             response = JSON.parse(JSON.stringify(response.data))
             console.log(response)
-            localStorage.setItem("xc", response.xc)
-            localStorage.setItem("yc", response.yc)
-            localStorage.setItem("x_quantum", response.x_quantum)
-            localStorage.setItem("quantum_cost", response.quantum_cost)
-            localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap))
+            let json = {};
+            if(this.state.algorithm == 'classical') {
+              json = {
+                'x': response.x,
+                'z': response.z,
+                'classical_cost': response.classical_cost,
+                'algo': 'classical'
+              }
+              localStorage.setItem("x", response.x)
+              localStorage.setItem("z", response.z)
+              localStorage.setItem("classical_cost", response.classical_cost)
+            }
+            else {
+              json = {
+                xc: response.xc,
+                yc: response.yc,
+                x_quantum: response.x_quantum,
+                quantum_cost:response.quantum_cost,
+                nodeMap:response.nodeMap,
+                qubit_needed:response.qubit_needed,
+                algo: this.state.algorithm
+              }
+              localStorage.setItem("xc", response.xc)
+              localStorage.setItem("yc", response.yc)
+              localStorage.setItem("x_quantum", response.x_quantum)
+              localStorage.setItem("quantum_cost", response.quantum_cost)
+              localStorage.setItem("qubit_needed", response.qubit_needed)
+              localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap))
+            }
             this.props.history.push({
-      pathname: '/maps',
-      state: {
-        xc: response.xc,
-        yc: response.yc,
-        x_quantum: response.x_quantum,
-        quantum_cost:response.quantum_cost,
-        nodeMap:response.nodeMap
-      }  
-  })
+                pathname: '/screen',
+                state: json
+            })
 
   })
 }

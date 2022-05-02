@@ -7,6 +7,7 @@ import Home from './Home/Home';
 import Maps from './Home/Maps';
 import Results from './Home/Results';
 import Navbar from './LandingPage/Navbar';
+import Screen from './Home/Screen';
 //Create a Main Component
 class Main extends Component {
     render(){
@@ -18,9 +19,10 @@ class Main extends Component {
                 <Route path="/register" component={Register}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/home" component={Home}/>
-                <Route path="/maps" component={Maps}/> 
+                {/* <Route path="/maps" component={Maps}/>  */}
                 <Route path="/results" component={Results}/> 
-                 
+                <Route path="/screen" component={Screen}/> 
+                <Route path="/maps" render={(props) => <Maps {...props} />} />
             </div>
             </Router>
         )
