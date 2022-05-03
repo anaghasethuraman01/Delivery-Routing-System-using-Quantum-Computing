@@ -16,7 +16,7 @@
     "jwt-decode": "^3.1.2",
     "mdbreact": "^4.6.1",
     "react": "^18.0.0",
-    "react-bootstrap": "^2.0.0-rc.0",
+    "react-bootstrap": "^2.3.1",
     "react-cookies": "^0.1.1",
     "react-country-region-selector": "^3.3.0",
     "react-dom": "^18.0.0",

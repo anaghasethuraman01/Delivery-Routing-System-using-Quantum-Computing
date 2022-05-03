@@ -14,6 +14,9 @@ from qiskit.algorithms.optimizers import SPSA
 from qiskit_optimization import QuadraticProgram
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
 
+
+# def getConnectionDetails(): 
+    
 def getRoute(n,k,algo):
     if algo == 'vqe':
         return vqe(n,k)

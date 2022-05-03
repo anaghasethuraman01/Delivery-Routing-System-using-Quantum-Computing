@@ -5,6 +5,7 @@ from bson import json_util
 import utils
 from flask_cors import CORS
 from numpyencoder import NumpyEncoder
+from qiskit import IBMQ
 
 app = flask.Flask(__name__)
 CORS(app)
@@ -17,7 +18,18 @@ db = mongo.db
 def members():
      user_list = list(db.users.find())
      return json.dumps(user_list, default=json_util.default)
-
+@app.route('/getConnectionDetails',methods=['GET'])
+def getConnectionDetails():
+     IBMQ.save_account('fbed16e0f3ddc79e1c4375a90c6f6f6c4bc5130f29bc3fe2ccd80d753e4167be53d2eabb76363fb26f6114d898910b9c4068cee2f59ef51c08522d4643f2bd59',overwrite=True)
+     
+     provider = IBMQ.load_account()
+     available_cloud_backends = provider.backends() 
+     str = []
+     print('\n Cloud backends:')
+     for i in available_cloud_backends: str.append(i)
+          
+     
+     
 @app.route('/getRoute/<n>/<k>/<algo>', methods=['GET'])
 def getRoute(n, k, algo):
      xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed = utils.getRoute(int(n),int(k),algo)

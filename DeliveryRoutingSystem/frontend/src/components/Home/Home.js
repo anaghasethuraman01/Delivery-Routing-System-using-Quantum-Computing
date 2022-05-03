@@ -4,7 +4,8 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { Input} from 'reactstrap';
-import {Modal, Button} from 'react-bootstrap';
+
+import {Modal,  Button} from 'react-bootstrap';
 import Navbar from '../LandingPage/Navbar';
 //Define a Login Component
 class Home extends Component {
@@ -45,10 +46,12 @@ class Home extends Component {
     });
   };
   checkConnection = () => {
-    console.log("hii")
     this.setState({
       show : true 
-      });
+  });
+  axios.get("http://127.0.0.1:5000/getConnectionDetails").then((response) => {
+      console.log(response)
+  });
   }
    //algorithm selected change handler to update state variable with the text entered by the user
   algorithmChangeHandler = (e) => {
@@ -56,7 +59,10 @@ class Home extends Component {
       algorithm: e.target.value,
     });
   };
-  
+  handleModalClose = () => {
+    this.setState({show:false}) 
+   
+  }
 
   optimize = (e) =>{    
     axios.get("http://127.0.0.1:5000/getRoute/"+this.state.destinations+"/"+this.state.vehicles+"/"+this.state.algorithm, 
@@ -111,6 +117,20 @@ class Home extends Component {
 
 
   render() {
+    var modalview = null;
+    if (this.state.show) {
+      modalview = (
+      <Modal.Dialog >
+        
+        <Modal.Body>
+        <h3>Connection Successful</h3>
+        <Button onClick={this.handleModalClose}> OK</Button>
+        </Modal.Body>
+      
+
+      </Modal.Dialog>
+      )
+    }
     //alert("Please Check your connection to quantum computer !")
     return (
       <div className="background1" >
@@ -125,29 +145,22 @@ class Home extends Component {
               <option value="qaoa">QAOA</option> 
               <option value="vqe" >VQE</option>
               <option value="admm" >ADMM</option>
-              <option value="cplex" >CPLEX</option>
+              
             </select>
             <br/>
             <Button variant="success" onClick={this.optimize}>Optimize Route</Button>
             <br/>
             <div className = "connectbtn">
             <Button  variant="success" onClick={this.checkConnection}>Check connection</Button>
+           
             </div>
-            <br/>
-             <div>
-              <Modal 
-              show = "true" >
-                <Modal.Header closeButton></Modal.Header>
-                
-                <Modal.Body>
-                <h1>Hello!</h1>
-                </Modal.Body>
-                
-              </Modal>
-              </div>
-       
+          {modalview}
+            
         </div>
+          
       </div>
+     
+      
     );
   }
 }
