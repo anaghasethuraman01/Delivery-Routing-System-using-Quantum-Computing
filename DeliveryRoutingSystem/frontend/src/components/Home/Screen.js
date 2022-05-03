@@ -6,6 +6,7 @@ import { Redirect } from "react-router";
 import { Input, Label} from 'reactstrap';
 import { Button} from 'react-bootstrap';
 import Navbar from '../LandingPage/Navbar';
+import QuantumFlow from '../Home/QuantumFlow';
 //Define a Login Component
 function Screen(props) {
   //call the constructor method
@@ -67,8 +68,8 @@ function Screen(props) {
                 <Button variant="success" onClick={()=>redirectTo()}>See Maps</Button>
               
             </div>
-       
         </div>
+        <QuantumFlow></QuantumFlow>
       </div>
     );
 }
