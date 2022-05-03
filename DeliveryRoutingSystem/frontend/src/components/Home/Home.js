@@ -117,13 +117,22 @@ class Home extends Component {
 
 
   render() {
+    console.log(this.state.str)
     var modalview = null;
-    if (this.state.show) {
+    if (this.state.show && this.state.str.length != 0) {
       modalview = (
-      <Modal.Dialog >
+      <Modal.Dialog style={{width:"22rem"}}>
         
         <Modal.Body>
-        <h3>Connection Successful</h3>
+        <h4>Connection Successful : Available quantum cloud backends</h4>
+        {this.state.str.map((str1) => {
+          return(
+          <div>
+          <p> {str1}</p>  
+          </div>
+          )
+        }
+           )}
         <Button onClick={this.handleModalClose}> OK</Button>
         </Modal.Body>
       
@@ -135,7 +144,9 @@ class Home extends Component {
     return (
       <div className="background1" >
         {this.state.redirect}
+        
         <h1 className="heading">Optimize Routes, Save Time</h1>
+        {modalview}
         <div className = " main-div1">
           Number of Destinations: <Input className="form-control" type="number" name="destinations"  onChange={this.destinationsChangeHandler} ></Input>
           Number of Vehicles: <Input className="form-control" type="number" name="vehicles"  onChange={this.vehiclesChangeHandler}  ></Input>
@@ -147,25 +158,17 @@ class Home extends Component {
               <option value="admm" >ADMM</option>
               
             </select>
+            
             <br/>
             <Button variant="success" onClick={this.optimize}>Optimize Route</Button>
             <br/>
-            {/* <div className = "connectbtn">
+            <div className = "connectbtn">
             <Button  variant="success" onClick={this.checkConnection}>Check connection</Button>
            
             </div>
-            <br/>
-             <div>
-              <Modal 
-              show = "true" >
-                <Modal.Header closeButton></Modal.Header>
-                
-                <Modal.Body>
-                <h1>Hello!</h1>
-                </Modal.Body>
-                
-              </Modal>
-              </div> */}
+          
+           
+              
        
         </div>
           

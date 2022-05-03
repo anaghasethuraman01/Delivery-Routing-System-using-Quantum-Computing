@@ -28,8 +28,8 @@ def getConnectionDetails():
      str = []
      print('\n Cloud backends:')
      for i in available_cloud_backends: 
-          #print((repr(i))) 
-          str.append(repr(i))
+          print((i.name())) 
+          str.append(i.name())
      #  str = available_cloud_backends[0]
      print(str)
      res = {}
@@ -37,7 +37,7 @@ def getConnectionDetails():
           "list" : str,
           "status" : "Success"
      }     
-     print(res)
+     #print(res)
      #return res
      myResponse = flask.make_response('Response')
      myResponse.access_control_allow_origin = 'http://localhost:3000'

@@ -56,7 +56,7 @@ class Navbar extends Component {
             </div>
             <ul className="nav navbar-nav">
               <li className="active">
-                <Link to="/register">Home</Link>
+                <Link to="/login">Home</Link>
               </li>
               
             </ul>
