@@ -21,8 +21,7 @@ class Home extends Component {
       authFlag: false,
       validationErr: {},
       redirect: null,
-      show:false,
-      str:''
+      show:false
     };
     //Bind the handlers to this class
     this.destinationsChangeHandler = this.destinationsChangeHandler.bind(this);
@@ -30,9 +29,9 @@ class Home extends Component {
     this.algorithmChangeHandler = this.algorithmChangeHandler.bind(this);
     this.optimize = this.optimize.bind(this);
   }
-  componentDidMount() {
+  // componentDidMount() {
     
-  }
+  // }
   //no. of destinations change handler to update state variable with the text entered by the user
   destinationsChangeHandler = (e) => {
     this.setState({
@@ -52,7 +51,6 @@ class Home extends Component {
   });
   axios.get("http://127.0.0.1:5000/getConnectionDetails").then((response) => {
       console.log(response)
-      this.setState({str:response.data.list})
   });
   }
    //algorithm selected change handler to update state variable with the text entered by the user
@@ -126,7 +124,6 @@ class Home extends Component {
         
         <Modal.Body>
         <h3>Connection Successful</h3>
-        {this.state.str}
         <Button onClick={this.handleModalClose}> OK</Button>
         </Modal.Body>
       
