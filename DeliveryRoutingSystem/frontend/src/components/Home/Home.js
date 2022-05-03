@@ -150,12 +150,23 @@ class Home extends Component {
             <br/>
             <Button variant="success" onClick={this.optimize}>Optimize Route</Button>
             <br/>
-            <div className = "connectbtn">
+            {/* <div className = "connectbtn">
             <Button  variant="success" onClick={this.checkConnection}>Check connection</Button>
            
             </div>
-          {modalview}
-            
+            <br/>
+             <div>
+              <Modal 
+              show = "true" >
+                <Modal.Header closeButton></Modal.Header>
+                
+                <Modal.Body>
+                <h1>Hello!</h1>
+                </Modal.Body>
+                
+              </Modal>
+              </div> */}
+       
         </div>
           
       </div>

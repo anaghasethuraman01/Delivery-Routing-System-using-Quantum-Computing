@@ -1,5 +1,6 @@
 import flask
 from flask_pymongo import PyMongo
+import numpy as np
 import json
 from bson import json_util
 import utils
@@ -34,13 +35,18 @@ def getConnectionDetails():
 def getRoute(n, k, algo):
      xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed = utils.getRoute(int(n),int(k),algo)
      res = {}
-     if(algo == 'classical') :
+     if(algo == 'cplex') :
           res = {
-               'x': xc,
-               'z': yc,
+               'xc': xc,
+               'yc': yc,
+               'nodeMap': nodeMap,
                'classical_cost': x_quantum
           }
      else :
+          print('Printing beatutified array:')
+          for ar in x_quantum:
+               print(ar)
+                              
           res = {
                "xc": xc,
                "yc": yc,
@@ -54,6 +60,12 @@ def getRoute(n, k, algo):
      # myResponse.access_control_allow_origin = 'http://localhost:3000/home'
      myResponse.data = json.dumps(res, cls=NumpyEncoder)
      return myResponse
+
+def node_sequence(arr,n,visited,row,node_sequence):
+     for col in range(n):
+          if arr[row][col] == 1:
+               node_sequence = [i]
+
      
 if __name__ == "__main__":
     app.run(debug=True)
