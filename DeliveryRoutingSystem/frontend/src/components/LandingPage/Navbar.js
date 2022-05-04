@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
+import { Button } from "reactstrap";
 
 //create the Navbar Component
 class Navbar extends Component {
@@ -52,16 +53,10 @@ class Navbar extends Component {
         <nav className="navbar navbar-inverse ">
           <div className="container-fluid">
             <div className="navbar-header">
-              <a className="navbar-brand">Route Planner</a>
+            <div className=" navbar-brand headerbtn"><h1 className="ubereats"><span style={{ color:"white"}}>Route Planner</span></h1>
+            <Button>Home</Button>
             </div>
-            <ul className="nav navbar-nav">
-              <li className="active">
-                <Link to="/login">Home</Link>
-              </li>
-              
-            </ul>
-            <h1></h1>
-            {/* {navLogin} */}
+             </div>
           </div>
         </nav>
       </div>
