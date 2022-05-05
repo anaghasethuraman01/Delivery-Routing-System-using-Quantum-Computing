@@ -94,13 +94,15 @@ class Home extends Component {
                 quantum_cost:response.quantum_cost,
                 nodeMap:response.nodeMap,
                 qubit_needed:response.qubit_needed,
-                algo: this.state.algorithm
+                algo: this.state.algorithm,
+                image: response.image
               }
               localStorage.setItem("xc", response.xc)
               localStorage.setItem("yc", response.yc)
               localStorage.setItem("x_quantum", response.x_quantum)
               localStorage.setItem("quantum_cost", response.quantum_cost)
               localStorage.setItem("qubit_needed", response.qubit_needed)
+              localStorage.setItem("image", response.image)
               localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap))
             }
             let val = {

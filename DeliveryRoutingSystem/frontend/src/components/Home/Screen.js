@@ -60,6 +60,10 @@ function Screen(props) {
                     <div className = 'row'>
                         <h3>xc:  {props.location.state.xc}</h3>
                     </div> <br></br>
+                    <div className="row">
+                        <h3>Optimized route in graph format</h3>
+                    <img src= {`data:image/png;base64,${props.location.state.image}`}/>
+                    </div>
                 </div>
                 :
                 <Label></Label>

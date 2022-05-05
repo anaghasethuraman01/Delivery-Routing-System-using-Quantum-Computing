@@ -7,6 +7,11 @@ import utils
 from flask_cors import CORS
 from numpyencoder import NumpyEncoder
 from qiskit import IBMQ
+from io import BytesIO
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from base64 import encodebytes
 
 app = flask.Flask(__name__)
 CORS(app)
@@ -48,8 +53,29 @@ def getConnectionDetails():
      
 @app.route('/getRoute/<n>/<k>/<algo>', methods=['GET'])
 def getRoute(n, k, algo):
-     xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed = utils.getRoute(int(n),int(k),algo)
+     xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed, x = utils.getRoute(int(n),int(k),algo)
      res = {}
+     fig = plt.figure(figsize=(14, 10))
+     plt.scatter(xc, yc, s=200)
+     for i in range(len(xc)):
+        plt.annotate(nodeMap[i], (xc[i] + 0.15, yc[i]), size=16, color='r')
+     plt.plot(xc[0], yc[0], 'r*', ms=20)
+
+     plt.grid()
+     n = int(n)
+     C = quantum_cost
+     for ii in range(0, n ** 2):
+
+        if x[ii] > 0:
+            ix = ii // n
+            iy = ii % n
+            plt.arrow(xc[ix], yc[ix], xc[iy] - xc[ix], yc[iy] - yc[ix], length_includes_head=True, head_width=.25)
+
+     plt.title(algo+' cost = ' + str(int(C * 100) / 100.))
+     img = BytesIO()
+     plt.savefig(img)
+     #img.seek(0)
+     encoded_img = encodebytes(img.getvalue()).decode('ascii')
      if(algo == 'cplex') :
           res = {
                'xc': xc,
@@ -68,7 +94,8 @@ def getRoute(n, k, algo):
                "x_quantum": x_quantum,
                "quantum_cost": quantum_cost,
                "nodeMap": nodeMap,
-               "qubit_needed": qubit_needed
+               "qubit_needed": qubit_needed,
+               "image": encoded_img
           }
      myResponse = flask.make_response('Response')
      myResponse.access_control_allow_origin = 'http://localhost:3000'

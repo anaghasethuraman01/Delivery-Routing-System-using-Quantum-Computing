@@ -263,7 +263,7 @@ def vqe(n,k):
 
     # visualize the solution
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
-    return xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed
+    return xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed, x
 
 
 
@@ -286,8 +286,8 @@ def qaoa(n,k):
 
     # visualize the solution
 
-    visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
-    return xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed
+    #visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
+    return xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed, x
 
 def admm(n,k,nodes):
     print('admm implementation')
