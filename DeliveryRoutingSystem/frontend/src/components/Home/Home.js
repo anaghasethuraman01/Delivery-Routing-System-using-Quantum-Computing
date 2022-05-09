@@ -125,7 +125,7 @@ class Home extends Component {
   render() {
     console.log(this.state.str)
     var modalview = null;
-    if (this.state.show && this.state.str.length != 0) {
+    if (this.state.show && this.state.str!=null && this.state.str.length != 0) {
       modalview = (
       <Modal show="true">
         
@@ -165,6 +165,7 @@ class Home extends Component {
               <option value="qaoa">QAOA</option> 
               <option value="vqe" >VQE</option>
               <option value="admm" >ADMM</option>
+              <option value="cplex" >CPLEX</option>
               
             </select>
             

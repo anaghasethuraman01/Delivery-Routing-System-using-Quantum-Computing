@@ -22,11 +22,13 @@ def getRoute(n,k,algo):
         return vqe(n,k)
     elif algo == 'qaoa':
         return qaoa(n,k)
-    elif algo == 'classical':
+    elif algo == 'cplex':
        return classical(n,k)
 def getRandomNodesFromDb(n):
     nodeMap = {}
-    addresses = ['Los Angeles', 'Sacramento', 'San Jose', 'Charlotte', 'San Diego']
+    # addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
+    addresses = ['San Jose','Milpitas', 'Palo Alto', 'Fremont']
+    # addresses = ['Milpitas', 'Palo Alto', 'San Jose', 'Fremont']
     geolocator = Nominatim(user_agent="VRP Using QC")
     xc = np.zeros([n])
     yc = np.zeros([n])
@@ -238,7 +240,7 @@ def visualize_solution(xc, yc, x, C, n, K, title_str, nodeMap):
         if x[ii] > 0:
             ix = ii // n
             iy = ii % n
-            plt.arrow(xc[ix], yc[ix], xc[iy] - xc[ix], yc[iy] - yc[ix], length_includes_head=True, head_width=.25)
+            plt.arrow(xc[ix], yc[ix], xc[iy] - xc[ix], yc[iy] - yc[ix], length_includes_head=True, head_width=0.010)
 
     plt.title(title_str+' cost = ' + str(int(C * 100) / 100.))
     plt.show()
@@ -270,6 +272,7 @@ def vqe(n,k):
 def get_new_coord(xc, yc, traversed_path, n):
     new_xc = []
     new_yc = []
+    print('This is the route',traversed_path)
     for i in range(n):
         node_number = traversed_path[i]
         new_xc.append(xc[node_number])
@@ -278,7 +281,11 @@ def get_new_coord(xc, yc, traversed_path, n):
 
 
 def get_traversed_path(x_quantum, n):
+    print(len(x_quantum))
+    print(x_quantum)
     x_quantum_2d = x_quantum.reshape(n,n)
+    
+    print(x_quantum_2d)
     next = None
     curr = 0
     traversed_path = []
@@ -310,7 +317,7 @@ def qaoa(n,k):
 
     # visualize the solution
 
-    visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
+    # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     x_quantum_2d = get_traversed_path(x_quantum,n)
     new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
     return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
@@ -325,8 +332,11 @@ def classical(n,k):
     x = None
     z = None
     x,z,classical_cost = get_classical_solution(n,k,instance)
-    if x is not None:
-        visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
+    # if x is not None:
+    #     visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
+    x_quantum_2d = get_traversed_path(x,n)
+    new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
+    return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
 
 def get_classical_solution(n,k,instance):
     x = None
@@ -337,12 +347,14 @@ def get_classical_solution(n,k,instance):
 
         # Put the solution in the z variable
         z = [x[ii] for ii in range(n**2) if ii//n != ii%n]
+        
         # Print the solution
-        print(z)
+        print('z:',z)
+        print('x:',x)
     except:
         print("CPLEX may be missing.")
     return x,z,classical_cost
-#classical(5,1)
-#qaoa(3,1)
-#vqe(3,1)
+#classical(4,1)
+#qaoa(4,1)
+#vqe(4,1)
 # getRoute(3,1,'classical')

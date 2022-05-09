@@ -15,6 +15,26 @@ function Screen(props) {
     const[algo, setAlgo] = useState(props.location.state.algo.toUpperCase());
     const[redirectVal, setRedirectVal] = useState(null);
     const[quantumComputer, setQuantumComputer] = useState('Qiskit');
+    const[nodeMap, setNodeMap] = useState(props.location.state.nodeMap);
+    const[xc, setXc] = useState(props.location.state.xc);
+    const[yc, setYc] = useState(props.location.state.yc);
+
+    const  nodesLoc = [];
+    for(let i = 0;i<xc.length;i++) {
+        let ar = [];
+        ar.push(xc[i]);
+        ar.push(yc[i]);
+        ar.push(nodeMap[i]);
+        nodesLoc.push(ar);
+    }
+    const nodeDiv = nodesLoc.map((node)=> {
+        
+        return (
+            <div className = 'row'>
+                <h3><b>{node[2]}: </b></h3> Latitue-> {node[0]}  Longitude->{node[1]}
+            </div> 
+        );
+    })
     useEffect(()=> {
         
     },[])
@@ -58,7 +78,7 @@ function Screen(props) {
                         <h3>Quantum Cost:  {props.location.state.quantum_cost}</h3>
                     </div><br></br>
                     <div className = 'row'>
-                        <h3>xc:  {props.location.state.xc}</h3>
+                        <h3>{nodeDiv}</h3>
                     </div> <br></br>
                     <div className="row">
                         <h3>Optimized route in graph format</h3>
