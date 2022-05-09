@@ -3,12 +3,30 @@
 .panel h2{ color:#444444; font-size:18px; margin:0 0 8px 0;}
 .panel p { color:#777777; font-size:14px; margin-bottom:30px; line-height:24px;}
 .login-form .form-control {
-  background: #f7f7f7 none repeat scroll 0 0;
+ 
   border: 1px solid #d4d4d4;
   border-radius: 4px;
   font-size: 14px;
   height: 50px;
   line-height: 50px;
+}
+.navbar-brand{
+  background-color: #282c34;
+  color: black;
+  width: 88rem;
+
+}
+.topbtns {
+  display: flex;
+  align-items: center;
+  margin-left: 5rem;
+  justify-content: space-between;
+}
+.headerbtn{
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  justify-content: space-between;
 }
 /* .form-control{
   display: flex;

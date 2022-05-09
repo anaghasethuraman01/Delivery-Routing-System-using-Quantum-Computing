@@ -21,7 +21,8 @@ class Home extends Component {
       authFlag: false,
       validationErr: {},
       redirect: null,
-      show:false
+      show:false,
+      str:''
     };
     //Bind the handlers to this class
     this.destinationsChangeHandler = this.destinationsChangeHandler.bind(this);
@@ -50,7 +51,10 @@ class Home extends Component {
       show : true 
   });
   axios.get("http://127.0.0.1:5000/getConnectionDetails").then((response) => {
-      console.log(response)
+    console.log(response)
+    this.setState({
+      str: response.data.list,
+    });
   });
   }
    //algorithm selected change handler to update state variable with the text entered by the user
@@ -90,13 +94,15 @@ class Home extends Component {
                 quantum_cost:response.quantum_cost,
                 nodeMap:response.nodeMap,
                 qubit_needed:response.qubit_needed,
-                algo: this.state.algorithm
+                algo: this.state.algorithm,
+                image: response.image
               }
               localStorage.setItem("xc", response.xc)
               localStorage.setItem("yc", response.yc)
               localStorage.setItem("x_quantum", response.x_quantum)
               localStorage.setItem("quantum_cost", response.quantum_cost)
               localStorage.setItem("qubit_needed", response.qubit_needed)
+              localStorage.setItem("image", response.image)
               localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap))
             }
             let val = {
@@ -121,7 +127,7 @@ class Home extends Component {
     var modalview = null;
     if (this.state.show && this.state.str.length != 0) {
       modalview = (
-      <Modal.Dialog style={{width:"22rem"}}>
+      <Modal show="true">
         
         <Modal.Body>
         <h4>Connection Successful : Available quantum cloud backends</h4>
@@ -137,16 +143,19 @@ class Home extends Component {
         </Modal.Body>
       
 
-      </Modal.Dialog>
+      </Modal>
       )
     }
     //alert("Please Check your connection to quantum computer !")
     return (
       <div className="background1" >
         {this.state.redirect}
-        
+        <div className="topbtns">
         <h1 className="heading">Optimize Routes, Save Time</h1>
-        {modalview}
+        <Button  variant="success" onClick={this.checkConnection}>Check connection</Button>
+       
+        </div>
+        
         <div className = " main-div1">
           Number of Destinations: <Input className="form-control" type="number" name="destinations"  onChange={this.destinationsChangeHandler} ></Input>
           Number of Vehicles: <Input className="form-control" type="number" name="vehicles"  onChange={this.vehiclesChangeHandler}  ></Input>
@@ -163,7 +172,7 @@ class Home extends Component {
             <Button variant="success" onClick={this.optimize}>Optimize Route</Button>
             <br/>
             <div className = "connectbtn">
-            <Button  variant="success" onClick={this.checkConnection}>Check connection</Button>
+            {modalview}
            
             </div>
           

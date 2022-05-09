@@ -3,8 +3,10 @@ import {
     Card,
     Container,
     Table,
+    Carousel
   } from 'react-bootstrap';
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
+import img_path from "../QuantumImage.jpg";
 
 class QuantumFlow extends Component {
     constructor(props) {
@@ -41,29 +43,27 @@ class QuantumFlow extends Component {
   render() {
       const { data } = this.state
       const Details = data.map((entry) => (
-        <div>
-          <Table bordered>
-          <Card border="primary" style={{ width: '35rem', height: '20rem', margin: '0.8em' }}>
-            <Card.Body>
-              <Card.Title>
-                <b>{entry.title}</b>
-              </Card.Title>
-              <Card.Text>
-                {entry.definition}
-              </Card.Text>
-            </Card.Body>
-          </Card><div style={{marginLeft: '25em'}}><BsFillArrowRightSquareFill></BsFillArrowRightSquareFill></div>
-          </Table>
-        </div>
+          <Carousel.Item>
+              <img
+      className="d-block w-100 mx-auto"
+      src={img_path}
+      alt="First slide"
+    />
+              <Carousel.Caption>
+                <h2>{entry.title}</h2>
+                <p>{entry.definition}</p>
+              </Carousel.Caption>
+          </Carousel.Item>
       ));
     return (
       <div>
-          <div style={{marginLeft: '10em'}}>
+          <div style={{marginLeft: '25em'}}>
           <h3>How quantum computing process the request?</h3>
-          </div>
-            <Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+          
+            <Carousel fade style={{width: '35rem', height: '24rem'}}>
               {Details}
-            </Container>
+            </Carousel>
+            </div>
       </div>
     )
   }
