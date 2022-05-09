@@ -26,7 +26,7 @@ def getRoute(n,k,algo):
        return classical(n,k)
 def getRandomNodesFromDb(n):
     nodeMap = {}
-    addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
+    addresses = ['Los Angeles', 'Sacramento', 'San Jose', 'Charlotte', 'San Diego']
     geolocator = Nominatim(user_agent="VRP Using QC")
     xc = np.zeros([n])
     yc = np.zeros([n])
@@ -263,9 +263,33 @@ def vqe(n,k):
 
     # visualize the solution
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
-    return xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed
+    x_quantum_2d = get_traversed_path(x_quantum,n)
+    new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
+    return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
+
+def get_new_coord(xc, yc, traversed_path, n):
+    new_xc = []
+    new_yc = []
+    for i in range(n):
+        node_number = traversed_path[i]
+        new_xc.append(xc[node_number])
+        new_yc.append(yc[node_number])
+    return new_xc, new_yc
 
 
+def get_traversed_path(x_quantum, n):
+    x_quantum_2d = x_quantum.reshape(n,n)
+    next = None
+    curr = 0
+    traversed_path = []
+    while next != 0:
+        traversed_path.append(curr)
+        for i in range(n):
+            if x_quantum_2d[curr][i] == 1:
+                next = i
+                break
+        curr = next
+    return traversed_path
 
 def qaoa(n,k):
     print('**********************qaoa implementation**********************')
@@ -287,7 +311,9 @@ def qaoa(n,k):
     # visualize the solution
 
     visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
-    return xc, yc, x_quantum, quantum_cost, nodeMap, qubit_needed
+    x_quantum_2d = get_traversed_path(x_quantum,n)
+    new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
+    return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
 
 def admm(n,k,nodes):
     print('admm implementation')
