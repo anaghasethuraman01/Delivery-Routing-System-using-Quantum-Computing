@@ -27,14 +27,29 @@ function Screen(props) {
         ar.push(nodeMap[i]);
         nodesLoc.push(ar);
     }
-    const nodeDiv = nodesLoc.map((node)=> {
+    const nodeTr = nodesLoc.map((node)=> {
         
         return (
-            <div className = 'row'>
-                <h3><b>{node[2]}: </b></h3> Latitue-> {node[0]}  Longitude->{node[1]}
-            </div> 
+            <tr>
+                <td>{node[2]}</td>
+                <td>{node[0].toFixed(2)}</td>
+                <td>{node[1].toFixed(2)}</td>
+            </tr> 
         );
     })
+    const nodeDiv = 
+    <div className = 'row'>
+        <h3><b>Location Data</b></h3>
+        <table>
+            <tr>
+                <th>Location</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+            {nodeTr}
+        </table>
+    </div>
+    
     useEffect(()=> {
         
     },[])
@@ -67,33 +82,37 @@ function Screen(props) {
       <div className="background1" >
         {redirectVal}
         <h1 className="heading">{algo} statistics for {quantumComputer}</h1>
-        <div className = " main-div1">
-            {
+        {
                 algo != 'classical'?
-                <div>
-                    <div className = 'row'>
-                        <h3>Qubits:  {qubits}</h3>
+                <div className = 'rowMain'>
+                    <div className = 'col1'>
+                    <h3><b>Quantum Data</b></h3>
+                        <h5>
+                            <table>
+                                <tr>
+                                    <th>Quantum Cost</th>
+                                    <th>Qubits</th>
+                                </tr>
+                                <tr>
+                                    <td>{props.location.state.quantum_cost.toFixed(2)}</td>
+                                    <td>{qubits}</td>
+                                </tr>
+                            </table>
+                        </h5>
                     </div> <br></br>
-                    <div className = 'row'>
-                        <h3>Quantum Cost:  {props.location.state.quantum_cost}</h3>
-                    </div><br></br>
-                    <div className = 'row'>
-                        <h3>{nodeDiv}</h3>
+                    <div className = 'col2'>
+                        <h5>{nodeDiv}</h5>
                     </div> <br></br>
-                    <div className="row">
-                        <h3>Optimized route in graph format</h3>
-                    <img src= {`data:image/png;base64,${props.location.state.image}`}/>
-                    </div>
+                    
                 </div>
                 :
                 <Label></Label>
             }
-            <div className="row">
-                <Button variant="success" onClick={()=>redirectTo()}>See Maps</Button>
-              
-            </div>
-        </div>
         <QuantumFlow></QuantumFlow>
+        <div className="row">
+            <Button variant="success" onClick={()=>redirectTo()}>See Maps</Button>
+            
+        </div>
       </div>
     );
 }
