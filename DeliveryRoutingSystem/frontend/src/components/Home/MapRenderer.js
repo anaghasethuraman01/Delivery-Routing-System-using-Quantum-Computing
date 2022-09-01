@@ -11,7 +11,9 @@ import {
   class MapDirectionsRenderer extends Component {
     state = {
       directions: null,
-      error: null
+      error: null,
+      totalDistance: 0,
+      totalDuration:0
         };
   
     componentDidMount() {
@@ -24,8 +26,6 @@ import {
       const origin = waypoints.shift().location;
       const destination = waypoints.pop().location;
       
-      
-    
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
         {
@@ -39,14 +39,39 @@ import {
             this.setState({
               directions: result
             });
+            var legs = this.state.directions.routes[0].legs;
+            let dist = 0;
+            var time = 0;
+            for(let i=0;i<legs.length;i++){
+                  dist = dist + legs[i].distance.value;
+                  time = time + legs[i].duration.value;
+            }
+            dist = parseInt(dist*0.000621371192);
+            time = parseInt(time*0.000277778);
+            
+            this.setState({
+              totalDistance : dist,
+              totalDuration: time
+            });
+
+          console.log('Total Distance: ', this.state.totalDistance);
+          console.log('Total duration: ', this.state.totalDuration );
+          console.log("Markers: ", this.sendData);
+
           } else {
             this.setState({ error: result });
           }
         }
       );
+
     }
+
+    sendData = () => {
+      this.props.parentCallback(this.state.totalDistance);
+ }
   
     render() {
+     
       if (this.state.error) {
         return <h1>{this.state.error}</h1>;
       }
@@ -66,12 +91,11 @@ import {
             return <Marker 
             key={index} position={position} />;
         })}
-       
+        
         <MapDirectionsRenderer
           places={props.markers}
           travelMode={window.google.maps.TravelMode.DRIVING}
         />
-       
 
       </GoogleMap>
     ))

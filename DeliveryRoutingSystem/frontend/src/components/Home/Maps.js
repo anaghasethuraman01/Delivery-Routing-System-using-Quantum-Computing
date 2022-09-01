@@ -1,13 +1,5 @@
 import React, { Component } from "react";
 import "../../App.css";
-import axios from "axios";
-import cookie from "react-cookies";
-import { Redirect } from "react-router";
-import { Input} from 'reactstrap';
-import { Button} from 'react-bootstrap';
-import Navbar from '../LandingPage/Navbar';
-import GoogleMapReact from 'google-map-react';
-import Marker from './Marker'
 import MapRenderer from './MapRenderer'
 
 //Define a Login Component
@@ -23,7 +15,8 @@ class Maps extends Component {
       x_quantum: this.props.location.state.x_quantum,
       quantum_cost:  this.props.location.state.quantum_cost,
       nodeMap:  this.props.location.state.nodeMap,
-      points: []
+      points: [],
+      totalDistance:0
     };
     //Bind the handlers to this class
     
@@ -41,6 +34,7 @@ class Maps extends Component {
     e.preventDefault();
     window.location.href='/results';
   }
+
 render(){
   var ids = Object.keys(this.state.nodeMap);
   var values = Object.values(this.state.nodeMap);
@@ -53,37 +47,9 @@ render(){
     });
   }
 
-  console.log(this.state.points);
-
-  // return (
-  //   <div className="App">
-  //     <GoogleMapReact
-  //       bootstrapURLKeys={{
-  //         key: "AIzaSyCW_z0jpZ5YrhNdywn5D8b7p7Qc39CIogg",
-  //         language: "en",
-  //         region: "US"
-  //       }}
-  //       defaultCenter={{ lat: 39.50, lng: -98.35}}
-  //       defaultZoom={-20}
-  //     >
-  //       {this.state.points.map(({ lat, lng, id, title }) => {
-  //         return (
-  //           <Marker
-  //             key={id}
-  //             lat={lat}
-  //             lng={lng}
-  //             text={id}
-  //             tooltip={title}
-  //           />
-  //         );
-  //       })}
-  //     </GoogleMapReact>
-  //   </div>
-    
-  // );
-
 
   return (
+    <div>
     <div>
     <MapRenderer
       googleMapURL={
@@ -91,12 +57,16 @@ render(){
         '&libraries=geometry,drawing,places'
       }
       markers={this.state.points}
+      // loadingElement={<div style={{height: `120%`}}/>}
+      // containerElement={<div style={{height: `80vh`}}/>}
+      // mapElement={ <div style={{height: `120%`, marginLeft:`30%`}}/>}
       loadingElement={<div style={{height: `100%`}}/>}
       containerElement={<div style={{height: "80vh"}}/>}
       mapElement={ <div style={{height: `100%`}}/>}
       defaultCenter={{lat: 25.798939, lng: -80.291409}}
       defaultZoom={15}
     />
+    </div>
     </div>
   );
 
