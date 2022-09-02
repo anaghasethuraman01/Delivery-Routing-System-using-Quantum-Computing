@@ -166,6 +166,7 @@ class Home extends Component {
               <option value="vqe" >VQE</option>
               <option value="admm" >ADMM</option>
               <option value="cplex" >CPLEX</option>
+              <option value="DWaveDBScan" >DWave DBScan Solver</option>
               
             </select>
             

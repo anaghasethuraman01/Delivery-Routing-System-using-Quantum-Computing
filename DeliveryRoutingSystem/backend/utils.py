@@ -13,7 +13,9 @@ from qiskit.algorithms import NumPyMinimumEigensolver, QAOA, VQE
 from qiskit.algorithms.optimizers import SPSA
 from qiskit_optimization import QuadraticProgram
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
-
+from vrp_problem import VRPProblem
+from vrp_solvers import DBScanSolver
+import DWaveSolvers
 
 # def getConnectionDetails(): 
     
@@ -24,6 +26,8 @@ def getRoute(n,k,algo):
         return qaoa(n,k)
     elif algo == 'cplex':
        return classical(n,k)
+    elif algo == 'DWaveDBScan':
+       return DWaveDBScanSolver(n,k)
 def getRandomNodesFromDb(n):
     nodeMap = {}
     # addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
@@ -315,12 +319,80 @@ def qaoa(n,k):
             x_quantum[ii] = quantum_solution[kk]
             kk +=  1
 
+    print(x_quantum)
     # visualize the solution
 
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     x_quantum_2d = get_traversed_path(x_quantum,n)
     new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
     return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
+
+def DWaveDBScanSolver(n,k):
+    print('**********************Dwave DBScanSolver implementation**********************')
+    nodeMap = {}
+    sources = [0]
+    destinations = np.zeros((n-1), dtype=int)
+    for i in range(1, n):
+        destinations[i-1] = i
+    addresses = ['San Jose', 'Menlo Park', 'Sunnyvale', 'Cupertino', 'Milpitas', 'Palo Alto']
+    nodes_num = len(sources) + len(destinations)
+
+    # Parameters for solve function.
+    only_one_const = 10000000.
+    order_const = 1.
+
+    # Reading weights of destinations.
+    weights = np.zeros((nodes_num), dtype=int)
+
+    # Reading costs.
+
+    geolocator = Nominatim(user_agent="VRP Using QC")
+    xc = np.zeros([nodes_num])
+    yc = np.zeros([nodes_num])
+    for i in range(0, nodes_num):
+        location = geolocator.geocode(addresses[i])
+        nodeMap[i] = addresses[i]
+        xc[i] = location.latitude
+        yc[i] = location.longitude
+    
+    costs = np.zeros((nodes_num, nodes_num))
+    for ii in range(0, nodes_num):
+        for jj in range(ii + 1, nodes_num):
+            costs[ii, jj] = math.sqrt((xc[ii] - xc[jj]) ** 2 + (yc[ii] - yc[jj]) ** 2)
+            costs[jj, ii] = costs[ii, jj]
+
+    print('Input nodes:\n',costs)
+
+    # Reading vehicles.
+    vehicles = k
+    capacities = np.ones((vehicles), dtype=int)
+
+    problem = VRPProblem(sources, costs, capacities, destinations, weights) 
+    # Solving problem on SolutionPartitioningSolver.
+    solver = DBScanSolver(problem, anti_noiser = False, max_len = 25)
+    solution = solver.solve(only_one_const, order_const, solver_type = 'cpu')
+
+    # Checking if solution is correct.
+    if solution == None or solution.check() == False:
+        print("Solver hasn't find solution.\n")
+
+    print("Solution : ", solution.solution) 
+    result = np.zeros((nodes_num), dtype=int)
+    for i in range(0, len(solution.solution)):
+        print("Vehicle: ", i+1)
+        for j in range(0, len(solution.solution[i])-1):
+            result[j] = solution.solution[i][j]
+            print(addresses[result[j]], end ="--")
+        print("\n")     
+    print("Total cost : ", solution.total_cost())
+    print("Result : ", result)
+    print("\n")
+
+    # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
+    #x_quantum_2d = get_traversed_path(x_quantum,n)
+    qubit_needed = 10
+    new_xc, new_yc = get_new_coord(xc,yc, result, nodes_num)
+    return new_xc, new_yc, result, solution.total_cost(), nodeMap, qubit_needed
 
 def admm(n,k,nodes):
     print('admm implementation')
