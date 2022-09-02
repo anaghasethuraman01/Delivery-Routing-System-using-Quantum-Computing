@@ -40,6 +40,7 @@ class Login extends Component {
   };
 
   submitLogin = (e) => {
+    console.log("here")
     e.preventDefault();
     this.setState({
         message: ""
