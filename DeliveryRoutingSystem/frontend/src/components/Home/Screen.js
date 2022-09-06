@@ -18,7 +18,7 @@ function Screen(props) {
 	const [nodeMap, setNodeMap] = useState(props.location.state.nodeMap);
 	const [xc, setXc] = useState(props.location.state.xc);
 	const [yc, setYc] = useState(props.location.state.yc);
-
+	console.log(algo)
 	const nodesLoc = [];
 	for (let i = 0; i < xc.length; i++) {
 		let ar = [];
@@ -82,9 +82,13 @@ function Screen(props) {
 	return (
 		<div className="background1">
 			{redirectVal}
+			{algo != "DBSCAN" ? (
 			<h1 className="heading">
 				{algo} statistics for {quantumComputer}
-			</h1>
+			</h1>) : (
+			<h1 className="heading">
+			{algo} Solver statistics for DWave
+			</h1>)}
 			{algo != "classical" ? (
 				<div className="rowMain">
 					<div className="col1">

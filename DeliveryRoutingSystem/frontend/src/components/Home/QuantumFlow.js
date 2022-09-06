@@ -44,29 +44,29 @@ class QuantumFlow extends Component {
 			],
 			dwavedata: [
 				{
-					title: "Solving D-wave",
+					title: "Define Combinatorial Problem",
 					definition:
 						"Combinatorial optimizational problem means finding an optimal solution from a finite or countably infinite set of solutions. Optimality is determined with respect to some criterion function which is also referred to as cost function or objective function. This route optimization problem can be defined as a combinatorial optimization problem in which the solution will be the optimal path with the shortest possible distance between the nodes. ",
 				},
 				{
-					title: "Convert problem into Binary Optimization",
+					title: "Formulate Quantum Problem",
 					definition:
-						"This is required to minimize the objective function which in this case is the cost function. From the resulting problem the Ising Hamiltonian is constructed.",
+						"Break down optimization problem into distinct objectives and constraints. Rather than storing information using bits represented by 0s or 1s in classical computers, quantum computers use quantum bits, or qubits, to encode information as 0s, 1s, or both at the same time.",
 				},
 				{
-					title: "Convert to Quadratic Problem(QP)",
+					title: "Formulate quadratic models",
 					definition:
-						"In this step, the problem is mapped to Quadratic Problem which is required to solve using Quantum computing.",
+						"In this step, the problem is mapped to Quadratic Problem which is required to solve using Quantum computing. The two formulations for objective functions are the Ising Model and QUBO both of which are binary quadratic models.",
 				},
 				{
 					title: "Select solver type",
 					definition:
-						"There are different optimization algorithms such as DBScan,Fullqubo solver which can be using solve thee Quadratic Problem created in the last step. This can be invoked using simulator such Qiskit or by connecting to actual quantum computer using token.",
+						"There are different optimization solvers such as DBScanSolver, FullQUBOSolver which will be used to solve the Quadratic Problem created in the last step.",
 				},
 				{
-					title: "Send quadratic program to Quantum computer",
+					title: "Finding solution using Quantum Annealing",
 					definition:
-						"The optimal solution for the Quadratic formulation will be returned by the quantum computing optmization algorithm and minimum eigen optimizer.",
+						"D-Wave uses Quantum Annealing to find the minimum of an energy landscape defined by the biases and couplings applied to its qubits in the form of a problem Hamiltonian. To solve a problem on quantum samplers, we formulate the problem as an objective function, usually in Ising or QUBO format. Low energy states of the objective function represent good solutions to the problem. ",
 				},
 				{
 					title: "Get Results",

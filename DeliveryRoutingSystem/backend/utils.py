@@ -26,7 +26,7 @@ def getRoute(n,k,algo):
         return qaoa(n,k)
     elif algo == 'cplex':
        return classical(n,k)
-    elif algo == 'DWaveDBScan':
+    elif algo == 'DBScan':
        return DWaveDBScanSolver(n,k)
 def getRandomNodesFromDb(n):
     nodeMap = {}

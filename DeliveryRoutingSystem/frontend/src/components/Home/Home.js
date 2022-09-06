@@ -148,7 +148,7 @@ class Home extends Component {
 						<option value="qaoa">QAOA</option>
 						<option value="vqe">VQE</option>
 						<option value="cplex">CPLEX</option>
-						<option value="DWaveDBScan">DWave DBScan Solver</option>
+						<option value="DBScan">DWave DBScan Solver</option>
 					</select>
 					<br />
 					<Button variant="success" onClick={this.optimize}>
