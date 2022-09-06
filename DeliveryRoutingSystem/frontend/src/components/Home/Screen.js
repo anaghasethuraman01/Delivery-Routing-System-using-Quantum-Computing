@@ -27,7 +27,7 @@ function Screen(props) {
 		ar.push(nodeMap[i]);
 		nodesLoc.push(ar);
 	}
-	console.log("nodes loc", nodesLoc);
+
 	const nodeTr = nodesLoc.map((node) => {
 		return (
 			<tr>
@@ -57,13 +57,10 @@ function Screen(props) {
 	const redirectTo = (e) => {
 		localStorage.setItem("pageFind", "maps");
 		let state = {};
-
 		if (algo == "CPLEX") {
-			console.log("hete");
 			state = {
-				xc: props.location.state.x,
-				yc: props.location.state.z,
-
+				xc: props.location.state.xc,
+				yc: props.location.state.yc,
 				quantum_cost: props.location.state.classical_cost,
 				nodeMap: props.location.state.nodeMap,
 				qubit_needed: 0,
