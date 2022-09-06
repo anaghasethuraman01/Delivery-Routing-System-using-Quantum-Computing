@@ -18,7 +18,7 @@ function Screen(props) {
 	const [nodeMap, setNodeMap] = useState(props.location.state.nodeMap);
 	const [xc, setXc] = useState(props.location.state.xc);
 	const [yc, setYc] = useState(props.location.state.yc);
-	console.log(algo)
+	console.log(algo);
 	const nodesLoc = [];
 	for (let i = 0; i < xc.length; i++) {
 		let ar = [];
@@ -27,6 +27,7 @@ function Screen(props) {
 		ar.push(nodeMap[i]);
 		nodesLoc.push(ar);
 	}
+	console.log("nodes loc", nodesLoc);
 	const nodeTr = nodesLoc.map((node) => {
 		return (
 			<tr>
@@ -56,11 +57,17 @@ function Screen(props) {
 	const redirectTo = (e) => {
 		localStorage.setItem("pageFind", "maps");
 		let state = {};
-		if (algo == "classical") {
+
+		if (algo == "CPLEX") {
+			console.log("hete");
 			state = {
-				x: props.location.state.x,
-				z: props.location.state.z,
-				classical_cost: props.location.state.classical_cost,
+				xc: props.location.state.x,
+				yc: props.location.state.z,
+
+				quantum_cost: props.location.state.classical_cost,
+				nodeMap: props.location.state.nodeMap,
+				qubit_needed: 0,
+				algo: props.location.state.algorithm,
 			};
 		} else {
 			state = {
@@ -83,13 +90,13 @@ function Screen(props) {
 		<div className="background1">
 			{redirectVal}
 			{algo != "DBSCAN" ? (
-			<h1 className="heading">
-				{algo} statistics for {quantumComputer}
-			</h1>) : (
-			<h1 className="heading">
-			{algo} Solver statistics for DWave
-			</h1>)}
-			{algo != "classical" ? (
+				<h1 className="heading">
+					{algo} statistics for {quantumComputer}
+				</h1>
+			) : (
+				<h1 className="heading">{algo} Solver statistics for DWave</h1>
+			)}
+			{algo != "CPLEX" ? (
 				<div className="rowMain">
 					<div className="col1">
 						<h3>
@@ -115,7 +122,13 @@ function Screen(props) {
 					<br></br>
 				</div>
 			) : (
-				<Label></Label>
+				<div className="rowMain">
+					<br></br>
+					<div className="col2">
+						<h5>{nodeDiv}</h5>
+					</div>{" "}
+					<br></br>
+				</div>
 			)}
 
 			<Button
