@@ -270,17 +270,28 @@ def vqe(n,k):
     # visualize the solution
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     x_quantum_2d = get_traversed_path(x_quantum,n)
-    new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
+    solution = []
+    solution.append(x_quantum_2d)
+    new_xc, new_yc = get_new_coord(xc,yc, solution, n)
     return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
 
 def get_new_coord(xc, yc, traversed_path, n):
     new_xc = []
     new_yc = []
     print('This is the route',traversed_path)
-    for i in range(n):
-        node_number = traversed_path[i]
-        new_xc.append(xc[node_number])
-        new_yc.append(yc[node_number])
+    for i in range(0, len(traversed_path)):
+        print("Vehicle: ", i+1)
+        new_xc.append([])
+        new_yc.append([])
+        for j in range(0, len(traversed_path[i])-1):
+            node_number = traversed_path[i][j]
+            new_xc[i].append(xc[node_number])
+            new_yc[i].append(yc[node_number])
+
+    #for i in range(n):
+    #    node_number = traversed_path[i]
+    #    new_xc.append(xc[node_number])
+    #    new_yc.append(yc[node_number])
     return new_xc, new_yc
 
 
@@ -324,7 +335,9 @@ def qaoa(n,k):
 
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     x_quantum_2d = get_traversed_path(x_quantum,n)
-    new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
+    solution = []
+    solution.append(x_quantum_2d)
+    new_xc, new_yc = get_new_coord(xc,yc, solution, n)
     return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
 
 def DWaveDBScanSolver(n,k):
@@ -377,22 +390,19 @@ def DWaveDBScanSolver(n,k):
         print("Solver hasn't find solution.\n")
 
     print("Solution : ", solution.solution) 
-    result = np.zeros((nodes_num), dtype=int)
     for i in range(0, len(solution.solution)):
         print("Vehicle: ", i+1)
         for j in range(0, len(solution.solution[i])-1):
-            result[j] = solution.solution[i][j]
-            print(addresses[result[j]], end ="--")
+            print(addresses[solution.solution[i][j]], end ="--")
         print("\n")     
     print("Total cost : ", solution.total_cost())
-    print("Result : ", result)
     print("\n")
 
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     #x_quantum_2d = get_traversed_path(x_quantum,n)
     qubit_needed = 10
-    new_xc, new_yc = get_new_coord(xc,yc, result, nodes_num)
-    return new_xc, new_yc, result, solution.total_cost(), nodeMap, qubit_needed
+    new_xc, new_yc = get_new_coord(xc,yc, solution.solution, nodes_num)
+    return new_xc, new_yc, solution.solution, solution.total_cost(), nodeMap, qubit_needed
 
 def admm(n,k,nodes):
     print('admm implementation')
