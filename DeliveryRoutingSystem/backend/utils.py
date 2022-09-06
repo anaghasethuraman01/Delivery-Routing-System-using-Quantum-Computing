@@ -414,11 +414,22 @@ def classical(n,k):
     x = None
     z = None
     x,z,classical_cost = get_classical_solution(n,k,instance)
+    x_classical = np.zeros(n**2)
+    kk = 0
+    for ii in range(n ** 2):
+        if ii // n != ii % n:
+            x_classical[ii] = z[kk]
+            kk +=  1
+
+    print(x_classical)
     # if x is not None:
     #     visualize_solution(xc, yc, x, classical_cost, n, k, 'Classical', nodeMap)
-    x_quantum_2d = get_traversed_path(x,n)
-    new_xc, new_yc = get_new_coord(xc,yc, x_quantum_2d, n)
-    return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
+    x_classical_2d = get_traversed_path(x_classical,n)
+    solution = []
+    solution.append(x_classical_2d)
+    qubit_needed = 0
+    new_xc, new_yc = get_new_coord(xc,yc, solution, n)
+    return new_xc, new_yc, x_classical_2d, classical_cost, nodeMap, qubit_needed
 
 def get_classical_solution(n,k,instance):
     x = None
