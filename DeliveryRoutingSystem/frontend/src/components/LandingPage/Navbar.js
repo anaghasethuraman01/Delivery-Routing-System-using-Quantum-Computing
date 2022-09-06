@@ -53,7 +53,6 @@ class Navbar extends Component {
 		this.setState({ show: false });
 	};
 	render() {
-		var redirectVar = <Redirect to="/login" />;
 		var modalview = null;
 		if (
 			this.state.show &&
@@ -79,7 +78,7 @@ class Navbar extends Component {
 				</Modal>
 			);
 		}
-
+		redirectVar = <Redirect to="/login" />;
 		const userSession = localStorage.getItem("pageFind");
 		let sessionAvail = null;
 		if (userSession == "admin") {
@@ -139,7 +138,7 @@ class Navbar extends Component {
 				</div>
 			);
 		}
-
+		var redirectVar = null;
 		return (
 			<div>
 				{redirectVar}
