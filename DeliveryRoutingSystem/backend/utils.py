@@ -283,7 +283,7 @@ def get_new_coord(xc, yc, traversed_path, n):
         print("Vehicle: ", i+1)
         new_xc.append([])
         new_yc.append([])
-        for j in range(0, len(traversed_path[i])-1):
+        for j in range(0, len(traversed_path[i])):
             node_number = traversed_path[i][j]
             new_xc[i].append(xc[node_number])
             new_yc[i].append(yc[node_number])
@@ -292,6 +292,8 @@ def get_new_coord(xc, yc, traversed_path, n):
     #    node_number = traversed_path[i]
     #    new_xc.append(xc[node_number])
     #    new_yc.append(yc[node_number])
+    print(new_xc)
+    print(new_yc)
     return new_xc, new_yc
 
 
@@ -389,20 +391,24 @@ def DWaveDBScanSolver(n,k):
     if solution == None or solution.check() == False:
         print("Solver hasn't find solution.\n")
 
+    result = []
     print("Solution : ", solution.solution) 
     for i in range(0, len(solution.solution)):
         print("Vehicle: ", i+1)
+        result.append([])
         for j in range(0, len(solution.solution[i])-1):
             print(addresses[solution.solution[i][j]], end ="--")
-        print("\n")     
+            result[i].append(solution.solution[i][j])
+        print("\n")  
+    print("Result: ", result)   
     print("Total cost : ", solution.total_cost())
     print("\n")
 
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     #x_quantum_2d = get_traversed_path(x_quantum,n)
-    qubit_needed = 10
-    new_xc, new_yc = get_new_coord(xc,yc, solution.solution, nodes_num)
-    return new_xc, new_yc, solution.solution, solution.total_cost(), nodeMap, qubit_needed
+    qubit_needed = nodes_num * (nodes_num-1)
+    new_xc, new_yc = get_new_coord(xc,yc, result, nodes_num)
+    return new_xc, new_yc, result, solution.total_cost(), nodeMap, qubit_needed
 
 def admm(n,k,nodes):
     print('admm implementation')
@@ -429,6 +435,9 @@ def classical(n,k):
     solution.append(x_classical_2d)
     qubit_needed = 0
     new_xc, new_yc = get_new_coord(xc,yc, solution, n)
+    print(new_xc)
+    print(new_yc)
+    print(classical_cost)
     return new_xc, new_yc, x_classical_2d, classical_cost, nodeMap, qubit_needed
 
 def get_classical_solution(n,k,instance):

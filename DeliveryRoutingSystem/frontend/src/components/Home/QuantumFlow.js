@@ -156,14 +156,14 @@ class QuantumFlow extends Component {
 			
 				<div>
 					<Button onClick={this.openPanel}>
-						<h3>Qiskit</h3>
+						<h5>Qiskit</h5>
 					</Button>
 					{modalview}
 				</div>
 
 				<div>
 					<Button onClick={this.openDwavePanel}>
-						<h3>D-wave</h3>
+						<h5>D-wave</h5>
 					</Button>
 					{modalview}
 				</div>

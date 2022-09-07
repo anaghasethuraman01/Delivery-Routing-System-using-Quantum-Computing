@@ -4,7 +4,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { Input, Label } from "reactstrap";
-import { Button } from "react-bootstrap";
+import { Button, Card, ListGroup, Container } from "react-bootstrap";
 import Navbar from "../LandingPage/Navbar";
 import QuantumFlow from "../Home/QuantumFlow";
 //Define a Login Component
@@ -18,39 +18,27 @@ function Screen(props) {
 	const [nodeMap, setNodeMap] = useState(props.location.state.nodeMap);
 	const [xc, setXc] = useState(props.location.state.xc);
 	const [yc, setYc] = useState(props.location.state.yc);
-	console.log(algo);
 	const nodesLoc = [];
-	for (let i = 0; i < xc.length; i++) {
-		let ar = [];
-		ar.push(xc[i]);
-		ar.push(yc[i]);
+	for (let i = 0; i < Object.keys(nodeMap).length; i++) {
+		let ar = [];	
 		ar.push(nodeMap[i]);
 		nodesLoc.push(ar);
 	}
 
 	const nodeTr = nodesLoc.map((node) => {
 		return (
-			<tr>
-				<td>{node[2]}</td>
-				<td>{node[0].toFixed(2)}</td>
-				<td>{node[1].toFixed(2)}</td>
-			</tr>
+			<ListGroup variant="flush">
+			<ListGroup.Item>{node[0]}</ListGroup.Item>
+			</ListGroup>
 		);
 	});
 	const nodeDiv = (
-		<div className="row container-fluid">
-			<h3>
-				<b>Location Data</b>
-			</h3>
-			<table>
-				<tr>
-					<th>Location</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
-				</tr>
-				{nodeTr}
-			</table>
-		</div>
+		<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+			<Card style={{ width: '18rem', margin: '0.8em' }}>
+			<Card.Header>Locations</Card.Header>
+			{nodeTr}
+			</Card>
+		</Container>
 	);
 
 	useEffect(() => {}, []);
@@ -87,47 +75,81 @@ function Screen(props) {
 		<div className="background1">
 			{redirectVal}
 			{algo != "DBSCAN" ? (
-				<h1 className="heading">
+				<h4 className="heading">
 					{algo} statistics for {quantumComputer}
-				</h1>
+				</h4>
 			) : (
-				<h1 className="heading">{algo} Solver statistics for DWave</h1>
+				<h3 className="heading">{algo} Solver statistics for DWave</h3>
 			)}
 			{algo != "CPLEX" ? (
 				<div className="rowMain">
 					<div className="col1">
-						<h3>
-							<b>Quantum Data</b>
-						</h3>
 						<h5>
-							<table>
-								<tr>
-									<th>Quantum Cost</th>
-									<th>Qubits</th>
-								</tr>
-								<tr>
-									<td>{props.location.state.quantum_cost.toFixed(2)}</td>
-									<td>{qubits}</td>
-								</tr>
-							</table>
+						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Algorithm Used</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{algo}</ListGroup.Item>
+						</ListGroup>
+						</Card>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Quantum Cost</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{props.location.state.quantum_cost.toFixed(2)}</ListGroup.Item>
+						</ListGroup>
+						</Card>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Qubits</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{qubits}</ListGroup.Item>
+						</ListGroup>
+						</Card>
+						</Container>
 						</h5>
-					</div>{" "}
-					<br></br>
-					<div className="col2">
+						</div>
+						<div className="col2">
 						<h5>{nodeDiv}</h5>
-					</div>{" "}
+						</div>
+						<div className="col3">
+						<h5>
+						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Source</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{nodeMap[0]}</ListGroup.Item>
+						</ListGroup>
+						</Card>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Number of vehicles</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{xc.length}</ListGroup.Item>
+						</ListGroup>
+						</Card>
+						</Container>
+						</h5>
+						</div>
 					<br></br>
 				</div>
 			) : (
 				<div className="rowMain">
-					<br></br>
+					<div className="col1">
+						<h5>
+						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Algorithm Used</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{algo}</ListGroup.Item>
+						</ListGroup>
+						</Card>
+						</Container>
+						</h5>
+						</div>
 					<div className="col2">
 						<h5>{nodeDiv}</h5>
 					</div>{" "}
-					<br></br>
 				</div>
 			)}
-
+			<div className="rowMain">
 			<Button
 				className="mapbutton"
 				variant="success"
@@ -135,11 +157,12 @@ function Screen(props) {
 			>
 				See Maps
 			</Button>
+			</div>
 			<div className="main-div1">
-				<h3>
-					Steps in solving the Vehicle Routing Problem (VRP) using quantum
-					computing!{" "}
-				</h3>
+				<h5>
+					Steps in solving the Vehicle Routing Problem (VRP) using Quantum
+					Computing!{" "}
+				</h5>
 				<QuantumFlow></QuantumFlow>
 			</div>
 		</div>

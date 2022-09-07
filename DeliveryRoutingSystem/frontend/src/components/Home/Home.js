@@ -71,18 +71,20 @@ class Home extends Component {
 			)
 			.then((response) => {
 				response = JSON.parse(JSON.stringify(response.data));
-				console.log(response);
+				console.log("Response: ", response);
 				let json = {};
-				if (this.state.algorithm == "classical") {
+				if (this.state.algorithm == "cplex") {
 					json = {
-						x: response.x,
-						z: response.z,
+						xc: response.xc,
+						yc: response.yc,
+            nodeMap: response.nodeMap,
 						classical_cost: response.classical_cost,
-						algo: "classical",
+						algo: "CPLEX",
 					};
-					localStorage.setItem("x", response.x);
-					localStorage.setItem("z", response.z);
+					localStorage.setItem("xc", response.xc);
+					localStorage.setItem("yc", response.yc);
 					localStorage.setItem("classical_cost", response.classical_cost);
+          localStorage.setItem("nodeMap", JSON.stringify(response.nodeMap));
 				} else {
 					json = {
 						xc: response.xc,
