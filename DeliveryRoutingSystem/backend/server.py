@@ -60,7 +60,7 @@ def getRoute(n, k, algo):
                'xc': xc,
                'yc': yc,
                'nodeMap': nodeMap,
-               'x_quantum': x_quantum
+               'classical_cost': quantum_cost
           }
      else :
           print('Printing beatutified array:')

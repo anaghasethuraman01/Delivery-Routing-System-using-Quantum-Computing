@@ -74,18 +74,29 @@ function Screen(props) {
 	return (
 		<div className="background1">
 			{redirectVal}
-			{algo != "DBSCAN" ? (
-				<h4 className="heading">
-					{algo} statistics for {quantumComputer}
-				</h4>
-			) : (
-				<h3 className="heading">{algo} Solver statistics for DWave</h3>
-			)}
+			<h4 className="heading">
+					Vehicle Routing optimization statistics
+			</h4>
 			{algo != "CPLEX" ? (
 				<div className="rowMain">
 					<div className="col1">
 						<h5>
 						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+						{(algo == "QAOA" || algo == "VQE") ? (
+							<Card style={{ width: '18rem', margin: '0.8em' }}>
+							<Card.Header>Quantum Computing Infrastrcture used</Card.Header>
+							<ListGroup variant="flush">
+							<ListGroup.Item>IBM Qiskit</ListGroup.Item>
+							</ListGroup>
+							</Card>
+						) :(
+							<Card style={{ width: '18rem', margin: '0.8em' }}>
+							<Card.Header>Quantum Computing Simulation</Card.Header>
+							<ListGroup variant="flush">
+							<ListGroup.Item>D-Wave</ListGroup.Item>
+							</ListGroup>
+							</Card>
+						)}
 						<Card style={{ width: '18rem', margin: '0.8em' }}>
 						<Card.Header>Algorithm Used</Card.Header>
 						<ListGroup variant="flush">
@@ -141,6 +152,12 @@ function Screen(props) {
 						<ListGroup.Item>{algo}</ListGroup.Item>
 						</ListGroup>
 						</Card>
+						<Card style={{ width: '18rem', margin: '0.8em' }}>
+						<Card.Header>Classical cost</Card.Header>
+						<ListGroup variant="flush">
+						<ListGroup.Item>{props.location.state.classical_cost.toFixed(2)}</ListGroup.Item>
+						</ListGroup>
+						</Card>
 						</Container>
 						</h5>
 						</div>
@@ -149,7 +166,6 @@ function Screen(props) {
 					</div>{" "}
 				</div>
 			)}
-			<div className="rowMain">
 			<Button
 				className="mapbutton"
 				variant="success"
@@ -157,7 +173,6 @@ function Screen(props) {
 			>
 				See Maps
 			</Button>
-			</div>
 			<div className="main-div1">
 				<h5>
 					Steps in solving the Vehicle Routing Problem (VRP) using Quantum
