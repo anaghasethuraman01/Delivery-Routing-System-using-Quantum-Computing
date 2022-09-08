@@ -84,14 +84,14 @@ function Screen(props) {
 						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
 						{(algo == "QAOA" || algo == "VQE") ? (
 							<Card style={{ width: '18rem', margin: '0.8em' }}>
-							<Card.Header>Quantum Computing Infrastrcture used</Card.Header>
+							<Card.Header>Quantum Environment</Card.Header>
 							<ListGroup variant="flush">
 							<ListGroup.Item>IBM Qiskit</ListGroup.Item>
 							</ListGroup>
 							</Card>
 						) :(
 							<Card style={{ width: '18rem', margin: '0.8em' }}>
-							<Card.Header>Quantum Computing Simulation</Card.Header>
+							<Card.Header>Quantum Environment</Card.Header>
 							<ListGroup variant="flush">
 							<ListGroup.Item>D-Wave</ListGroup.Item>
 							</ListGroup>

@@ -412,7 +412,7 @@ def DWaveSolver(n,k, algo):
 
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     #x_quantum_2d = get_traversed_path(x_quantum,n)
-    qubit_needed = 0
+    qubit_needed = nodes_num * (nodes_num-1)
     new_xc, new_yc = get_new_coord(xc,yc, result, nodes_num)
     return new_xc, new_yc, result, solution.total_cost(), nodeMap, qubit_needed
 
