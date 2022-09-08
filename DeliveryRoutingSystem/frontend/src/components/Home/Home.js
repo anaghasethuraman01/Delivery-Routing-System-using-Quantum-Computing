@@ -30,9 +30,11 @@ class Home extends Component {
 		this.algorithmChangeHandler = this.algorithmChangeHandler.bind(this);
 		this.optimize = this.optimize.bind(this);
 	}
-	// componentDidMount() {
 
-	// }
+  componentDidMount() {
+    localStorage.setItem('index', 0);
+  }
+
 	//no. of destinations change handler to update state variable with the text entered by the user
 	destinationsChangeHandler = (e) => {
 		this.setState({

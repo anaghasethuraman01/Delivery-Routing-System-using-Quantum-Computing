@@ -83,6 +83,18 @@
   margin-top: 1rem;
   padding-top: 0.1rem;
 }
+.prevButton {
+	margin-left: 5px;
+	bottom: 735px;
+	margin-top: 1rem;
+	padding-top: 0.1rem;
+}
+.nextButton {
+	margin-left: 10px;
+	bottom: 735px;
+	margin-top: 1rem;
+	padding-top: 0.1rem;
+}
 .closebutton {
   width: 20rem;
 }
@@ -221,4 +233,11 @@ th,
 td {
   border: 1px solid black;
   border-collapse: collapse;
+}
+
+.details {
+text-align: center;
+font-size: 1rem;
+font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+padding-top:20px;
 }
