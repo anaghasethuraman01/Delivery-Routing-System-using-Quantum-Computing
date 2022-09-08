@@ -1,4 +1,5 @@
 from qubo_helper import Qubo
+import numpy as np
 from itertools import combinations, product
 
 # VRP problem with multi-source.
@@ -133,7 +134,8 @@ class VRPProblem:
         dests = self.dests
         source = self.source
         dests_with_source = dests.copy()
-        dests_with_source.append(source)
+        dests_with_source = np.append(dests_with_source,source)
+        # dests_with_source.append(source)
         costs = self.costs
         vrp_qubo = Qubo()
 

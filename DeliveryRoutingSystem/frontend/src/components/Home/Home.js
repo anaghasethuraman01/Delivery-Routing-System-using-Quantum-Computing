@@ -147,10 +147,11 @@ class Home extends Component {
 						onChange={this.algorithmChangeHandler}
 					>
 						<option value="Select">Select </option>
-						<option value="qaoa">QAOA</option>
-						<option value="vqe">VQE</option>
 						<option value="cplex">CPLEX</option>
+						<option value="qaoa">Qiskit QAOA</option>
+						<option value="vqe">Qiskit VQE</option>
 						<option value="DBScan">DWave DBScan Solver</option>
+						<option value="FullQubo">DWave FullQubo Solver</option>
 					</select>
 					<br />
 					<Button variant="success" onClick={this.optimize}>

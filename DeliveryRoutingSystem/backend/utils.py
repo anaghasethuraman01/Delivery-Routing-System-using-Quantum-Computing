@@ -15,6 +15,7 @@ from qiskit_optimization import QuadraticProgram
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
 from vrp_problem import VRPProblem
 from vrp_solvers import DBScanSolver
+from vrp_solvers import FullQuboSolver
 import DWaveSolvers
 
 # def getConnectionDetails(): 
@@ -27,7 +28,9 @@ def getRoute(n,k,algo):
     elif algo == 'cplex':
        return classical(n,k)
     elif algo == 'DBScan':
-       return DWaveDBScanSolver(n,k)
+       return DWaveSolver(n,k, "dbscan")
+    elif algo == 'FullQubo':
+       return DWaveSolver(n,k, "fullqubo")
 def getRandomNodesFromDb(n):
     nodeMap = {}
     # addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
@@ -342,8 +345,8 @@ def qaoa(n,k):
     new_xc, new_yc = get_new_coord(xc,yc, solution, n)
     return new_xc, new_yc, x_quantum_2d, quantum_cost, nodeMap, qubit_needed
 
-def DWaveDBScanSolver(n,k):
-    print('**********************Dwave DBScanSolver implementation**********************')
+def DWaveSolver(n,k, algo):
+    print(f'**********************Dwave {algo} implementation**********************')
     nodeMap = {}
     sources = [0]
     destinations = np.zeros((n-1), dtype=int)
@@ -384,7 +387,10 @@ def DWaveDBScanSolver(n,k):
 
     problem = VRPProblem(sources, costs, capacities, destinations, weights) 
     # Solving problem on SolutionPartitioningSolver.
-    solver = DBScanSolver(problem, anti_noiser = False, max_len = 25)
+    if algo == "dbscan":
+        solver = DBScanSolver(problem, anti_noiser = False, max_len = 25)
+    if algo == "fullqubo":
+        solver = FullQuboSolver(problem)
     solution = solver.solve(only_one_const, order_const, solver_type = 'cpu')
 
     # Checking if solution is correct.
@@ -406,9 +412,10 @@ def DWaveDBScanSolver(n,k):
 
     # visualize_solution(xc, yc, x_quantum, quantum_cost, n, k, 'Quantum', nodeMap)
     #x_quantum_2d = get_traversed_path(x_quantum,n)
-    qubit_needed = nodes_num * (nodes_num-1)
+    qubit_needed = 0
     new_xc, new_yc = get_new_coord(xc,yc, result, nodes_num)
     return new_xc, new_yc, result, solution.total_cost(), nodeMap, qubit_needed
+
 
 def admm(n,k,nodes):
     print('admm implementation')
