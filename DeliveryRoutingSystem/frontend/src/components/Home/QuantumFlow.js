@@ -11,6 +11,13 @@ class QuantumFlow extends Component {
 			str: "",
 			data: [
 				{
+					title: (
+						<h1>
+							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) USING QUANTUM COMPUTING! 
+						</h1>
+					),
+				},
+				{
 					title: "Define Combinatorial Problem",
 					definition:
 						"Combinatorial optimizational problem means finding an optimal solution from a finite or countably infinite set of solutions. Optimality is determined with respect to some criterion function which is also referred to as cost function or objective function. This route optimization problem can be defined as a combinatorial optimization problem in which the solution will be the optimal path with the shortest possible distance between the nodes. ",
@@ -43,6 +50,10 @@ class QuantumFlow extends Component {
 				},
 			],
 			dwavedata: [
+				{
+					title:
+						"Steps in solving the Vehicle Routing Problem (VRP) using Quantum Computing!",
+				},
 				{
 					title: "Define Combinatorial Problem",
 					definition:
