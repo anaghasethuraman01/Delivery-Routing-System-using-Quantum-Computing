@@ -92,7 +92,8 @@ class MapDirectionsRenderer extends Component {
   let prevButton;
   let index = parseInt(localStorage.getItem('index'));
   let length = parseInt(localStorage.getItem('length'));
-  if(index<length-1){
+  let nextExists = localStorage.getItem('nextExists');
+  if(index<length-1 && nextExists!=='false'){
     nextButton = <Button className="nextButton"variant="success" onClick={() => this.nextRoute()}>Next</Button>
   }
   else {nextButton = null;}

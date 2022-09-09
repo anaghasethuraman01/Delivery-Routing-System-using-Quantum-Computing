@@ -46,8 +46,12 @@ render(){
   this.state.points.push(temp);
 }
 let index = parseInt(localStorage.getItem('index'));
+if (index+1<this.state.points.length && this.state.points[index+1].length==0){
+  localStorage.setItem('nextExists', 'false');
+}
 let routeMarkers = this.state.points[index];
 localStorage.setItem('length', this.state.points.length);
+
   return (
       <div>
     <MapRenderer
