@@ -18,9 +18,10 @@ function Screen(props) {
 	const [nodeMap, setNodeMap] = useState(props.location.state.nodeMap);
 	const [xc, setXc] = useState(props.location.state.xc);
 	const [yc, setYc] = useState(props.location.state.yc);
+	localStorage.setItem("algo", algo);
 	const nodesLoc = [];
 	for (let i = 0; i < Object.keys(nodeMap).length; i++) {
-		let ar = [];	
+		let ar = [];
 		ar.push(nodeMap[i]);
 		nodesLoc.push(ar);
 	}
@@ -28,15 +29,21 @@ function Screen(props) {
 	const nodeTr = nodesLoc.map((node) => {
 		return (
 			<ListGroup variant="flush">
-			<ListGroup.Item>{node[0]}</ListGroup.Item>
+				<ListGroup.Item>{node[0]}</ListGroup.Item>
 			</ListGroup>
 		);
 	});
 	const nodeDiv = (
-		<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-			<Card style={{ width: '18rem', margin: '0.8em' }}>
-			<Card.Header>Locations</Card.Header>
-			{nodeTr}
+		<Container
+			style={{
+				display: "flex",
+				flexWrap: "wrap",
+				justifyContent: "flex-start",
+			}}
+		>
+			<Card style={{ width: "18rem", margin: "0.8em" }}>
+				<Card.Header>Destinations</Card.Header>
+				{nodeTr}
 			</Card>
 		</Container>
 	);
@@ -46,6 +53,7 @@ function Screen(props) {
 		localStorage.setItem("pageFind", "maps");
 		let state = {};
 		if (algo == "CPLEX") {
+			localStorage.setItem("algo", "cplex");
 			state = {
 				xc: props.location.state.xc,
 				yc: props.location.state.yc,
@@ -74,98 +82,7 @@ function Screen(props) {
 	return (
 		<div className="background1">
 			{redirectVal}
-			<h4 className="heading">
-					Vehicle Routing optimization statistics
-			</h4>
-			{algo != "CPLEX" ? (
-				<div className="rowMain">
-					<div className="col1">
-						<h5>
-						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-						{(algo == "QAOA" || algo == "VQE") ? (
-							<Card style={{ width: '18rem', margin: '0.8em' }}>
-							<Card.Header>Quantum Environment</Card.Header>
-							<ListGroup variant="flush">
-							<ListGroup.Item>IBM Qiskit</ListGroup.Item>
-							</ListGroup>
-							</Card>
-						) :(
-							<Card style={{ width: '18rem', margin: '0.8em' }}>
-							<Card.Header>Quantum Environment</Card.Header>
-							<ListGroup variant="flush">
-							<ListGroup.Item>D-Wave</ListGroup.Item>
-							</ListGroup>
-							</Card>
-						)}
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Algorithm Used</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{algo}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Quantum Cost</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{props.location.state.quantum_cost.toFixed(2)}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Qubits</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{qubits}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						</Container>
-						</h5>
-						</div>
-						<div className="col2">
-						<h5>{nodeDiv}</h5>
-						</div>
-						<div className="col3">
-						<h5>
-						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Source</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{nodeMap[0]}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Number of vehicles</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{xc.length}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						</Container>
-						</h5>
-						</div>
-					<br></br>
-				</div>
-			) : (
-				<div className="rowMain">
-					<div className="col1">
-						<h5>
-						<Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Algorithm Used</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{algo}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						<Card style={{ width: '18rem', margin: '0.8em' }}>
-						<Card.Header>Classical cost</Card.Header>
-						<ListGroup variant="flush">
-						<ListGroup.Item>{props.location.state.classical_cost.toFixed(2)}</ListGroup.Item>
-						</ListGroup>
-						</Card>
-						</Container>
-						</h5>
-						</div>
-					<div className="col2">
-						<h5>{nodeDiv}</h5>
-					</div>{" "}
-				</div>
-			)}
+			<h4 className="heading">Vehicle Routing optimization statistics</h4>
 			<Button
 				className="mapbutton"
 				variant="success"
@@ -173,13 +90,120 @@ function Screen(props) {
 			>
 				See Maps
 			</Button>
-			<div className="main-div1">
-				<h5>
-					Steps in solving the Vehicle Routing Problem (VRP) using Quantum
-					Computing!{" "}
-				</h5>
-				<QuantumFlow></QuantumFlow>
-			</div>
+
+			<QuantumFlow></QuantumFlow>
+
+			{algo != "CPLEX" ? (
+				<div className="rowMain">
+					<div className="col1">
+						<h5>
+							<Container
+								style={{
+									display: "flex",
+									flexWrap: "wrap",
+									justifyContent: "flex-start",
+								}}
+							>
+								{algo == "QAOA" || algo == "VQE" ? (
+									<Card style={{ width: "18rem", margin: "0.8em" }}>
+										<Card.Header>Quantum Environment</Card.Header>
+										<ListGroup variant="flush">
+											<ListGroup.Item>IBM Qiskit</ListGroup.Item>
+										</ListGroup>
+									</Card>
+								) : (
+									<Card style={{ width: "18rem", margin: "0.8em" }}>
+										<Card.Header>Quantum Environment</Card.Header>
+										<ListGroup variant="flush">
+											<ListGroup.Item>D-Wave</ListGroup.Item>
+										</ListGroup>
+									</Card>
+								)}
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Algorithm Used</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>{algo}</ListGroup.Item>
+									</ListGroup>
+								</Card>
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Quantum Cost</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>
+											{props.location.state.quantum_cost.toFixed(2)}
+										</ListGroup.Item>
+									</ListGroup>
+								</Card>
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Qubits</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>{qubits}</ListGroup.Item>
+									</ListGroup>
+								</Card>
+							</Container>
+						</h5>
+					</div>
+					<div className="col2">
+						<h5>{nodeDiv}</h5>
+					</div>
+					<div className="col3">
+						<h5>
+							<Container
+								style={{
+									display: "flex",
+									flexWrap: "wrap",
+									justifyContent: "flex-start",
+								}}
+							>
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Source</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>{nodeMap[0]}</ListGroup.Item>
+									</ListGroup>
+								</Card>
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Number of vehicles</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>{xc.length}</ListGroup.Item>
+									</ListGroup>
+								</Card>
+							</Container>
+						</h5>
+					</div>
+					<br></br>
+				</div>
+			) : (
+				<div className="rowMain">
+					<div className="col1">
+						<h5>
+							<Container
+								style={{
+									display: "flex",
+									flexWrap: "wrap",
+									justifyContent: "flex-start",
+								}}
+							>
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Algorithm Used</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>{algo}</ListGroup.Item>
+									</ListGroup>
+								</Card>
+								<Card style={{ width: "18rem", margin: "0.8em" }}>
+									<Card.Header>Classical cost</Card.Header>
+									<ListGroup variant="flush">
+										<ListGroup.Item>
+											{props.location.state.classical_cost.toFixed(2)}
+										</ListGroup.Item>
+									</ListGroup>
+								</Card>
+							</Container>
+						</h5>
+					</div>
+					<div className="col2">
+						<h5>{nodeDiv}</h5>
+					</div>{" "}
+				</div>
+			)}
 		</div>
 	);
 }

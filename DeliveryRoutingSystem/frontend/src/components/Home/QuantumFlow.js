@@ -28,7 +28,7 @@ class QuantumFlow extends Component {
 				{
 					title: "Select solver type",
 					definition:
-						"There are different optimization algorithms such as VQE, QAOA, ADMM which can be using solve thee Quadratic Problem created in the last step. This can be invoked using simulator such Qiskit or by connecting to actual quantum computer using token.",
+						"There are different optimization algorithms such as VQE, QAOA which can be using solve thee Quadratic Problem created in the last step. This can be invoked using simulator such Qiskit or by connecting to actual quantum computer using token.",
 				},
 				{
 					title:
@@ -126,49 +126,22 @@ class QuantumFlow extends Component {
 			</Carousel.Item>
 		));
 		var modalview = null;
-		if (this.state.show && this.state.str == "Qiskit") {
+		const algo = localStorage.getItem("algo");
+		if (algo == "QAOA" || algo == "VQE") {
 			modalview = (
-				<Modal show="true">
-					<Carousel fade style={{ width: "35rem" }}>
-						{Details}
-					</Carousel>
-					<Button style={{ width: "35rem" }} onClick={this.closePanel}>
-						OK
-					</Button>
-				</Modal>
+				<Carousel fade style={{ width: "35rem" }}>
+					{Details}
+				</Carousel>
 			);
-		} else if (this.state.show && this.state.str == "Dwave") {
+		} else if (algo == "DBSCAN" || algo == "FULLQUBO") {
 			modalview = (
-				<Modal show="true">
-					<Carousel fade style={{ width: "35rem" }}>
-						{dwaveDetails}
-					</Carousel>
-
-					<Button style={{ width: "35rem" }} onClick={this.closePanel}>
-						OK
-					</Button>
-				</Modal>
+				<Carousel fade style={{ width: "35rem" }}>
+					{dwaveDetails}
+				</Carousel>
 			);
 		}
 
-		return (
-			<div className="infoPanel container-fluid">
-			
-				<div>
-					<Button onClick={this.openPanel}>
-						<h5>Qiskit</h5>
-					</Button>
-					{modalview}
-				</div>
-
-				<div>
-					<Button onClick={this.openDwavePanel}>
-						<h5>D-wave</h5>
-					</Button>
-					{modalview}
-				</div>
-			</div>
-		);
+		return <div className="main-div2">{modalview}</div>;
 	}
 }
 
