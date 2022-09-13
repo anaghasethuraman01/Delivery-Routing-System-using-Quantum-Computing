@@ -4,8 +4,9 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { Input } from "reactstrap";
+import RangeSlider from 'react-bootstrap-range-slider';
 
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import Navbar from "../LandingPage/Navbar";
 //Define a Login Component
 class Home extends Component {
@@ -15,11 +16,13 @@ class Home extends Component {
 		super(props);
 		//maintain the state required for this component
 		this.state = {
-			destinations: 0,
-			vehicles: 0,
+			destinations: 3,
+			vehicles: 1,
+      platform: "D-Wave",
 			algorithm: "",
 			authFlag: false,
 			validationErr: {},
+      errorMsg:'',
 			redirect: null,
 			show: false,
 			str: "",
@@ -49,10 +52,17 @@ class Home extends Component {
 		});
 	};
 
+  platformChangeHandler = (e) => {
+		this.setState({
+			platform: e.target.value,
+		});
+	};
+
 	//algorithm selected change handler to update state variable with the text entered by the user
 	algorithmChangeHandler = (e) => {
 		this.setState({
 			algorithm: e.target.value,
+      errorMsg: ''
 		});
 	};
 	handleModalClose = () => {
@@ -61,6 +71,9 @@ class Home extends Component {
 
 	optimize = (e) => {
 		localStorage.setItem("pageFind", "home");
+    if(this.state.algorithm == ""){
+      this.setState({ errorMsg: 'Please select an algorithm!' });
+    }
 		axios
 			.get(
 				"http://127.0.0.1:5000/getRoute/" +
@@ -121,28 +134,41 @@ class Home extends Component {
 			<div className="body-home">
 				{this.state.redirect}
 				<div>
-					<h1 className="heading">Optimize Routes, Save Time</h1>
+					<h4 className="heading">Optimize Routes, Save Time</h4>
 				</div>
 				<div className="main-div1">
-					<h5>Number of Destinations: </h5>
-					<Input
+        <h5>Choose Computing Platform: </h5>
+          <Form.Group className="mb-3">
+            <Form.Check inline value="D-Wave" defaultChecked label="D-Wave Quantum" name="platform" type="radio" id="D-Wave" onChange={this.platformChangeHandler} />
+            <Form.Check inline value="Qiskit" label="IBM Qiskit Quantum" name="platform" type="radio" id="Qiskit" onChange={this.platformChangeHandler} />
+            <Form.Check inline value="Classical" label="Classical" name="platform" type="radio" id="Classical" onChange={this.platformChangeHandler} />
+          </Form.Group>
+          {this.state.platform === 'Qiskit' && 
+          <div><h5>Choose Algorithm:</h5>
+					<select
 						className="form-control"
-						type="number"
-						name="destinations"
-						placeholder="Value should be 2 or more"
-						onChange={this.destinationsChangeHandler}
-					></Input>
-					<br />
-					<h5>Number of Vehicles: </h5>
-					<Input
+						name="algo"
+						onChange={this.algorithmChangeHandler}
+					>
+						<option value="Select">Select </option>
+						<option value="qaoa">Qiskit QAOA</option>
+						<option value="vqe">Qiskit VQE</option>
+					</select>
+          </div>}
+          {this.state.platform === 'D-Wave' && 
+          <div><h5>Choose Algorithm:</h5>
+					<select
 						className="form-control"
-						type="number"
-						name="vehicles"
-						placeholder="Value should be 1 or more"
-						onChange={this.vehiclesChangeHandler}
-					></Input>
-					<br />
-					<h5>Choose Algorithm:</h5>
+						name="algo"
+						onChange={this.algorithmChangeHandler}
+					>
+						<option value="Select">Select </option>
+						<option value="DBScan">DWave DBScan Solver</option>
+						<option value="FullQubo">DWave FullQubo Solver</option>
+					</select>
+          </div>}
+          {this.state.platform === 'Classical' && 
+          <div><h5>Choose Algorithm:</h5>
 					<select
 						className="form-control"
 						name="algo"
@@ -150,11 +176,26 @@ class Home extends Component {
 					>
 						<option value="Select">Select </option>
 						<option value="cplex">CPLEX</option>
-						<option value="qaoa">Qiskit QAOA</option>
-						<option value="vqe">Qiskit VQE</option>
-						<option value="DBScan">DWave DBScan Solver</option>
-						<option value="FullQubo">DWave FullQubo Solver</option>
 					</select>
+          </div>}
+          <div>
+          <span style={{color: "#de404d"}}> { this.state.errorMsg }</span></div>
+          <br></br>
+					<h5>Number of Destinations: </h5>
+          <RangeSlider
+                    value={this.state.destinations}
+                    min={3}
+                    max={50}
+                    onChange={this.destinationsChangeHandler}
+                  />
+					<br />
+					<h5>Number of Vehicles: </h5>
+          <RangeSlider
+                    value={this.state.vehicles}
+                    min={1}
+                    max={10}
+                    onChange={this.vehiclesChangeHandler}
+                  />
 					<br />
 					<Button variant="success" onClick={this.optimize}>
 						Optimize Route
