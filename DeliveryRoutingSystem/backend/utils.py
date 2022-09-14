@@ -16,6 +16,7 @@ from qiskit_optimization.algorithms import MinimumEigenOptimizer
 from vrp_problem import VRPProblem
 from vrp_solvers import DBScanSolver
 from vrp_solvers import FullQuboSolver
+from server import db
 import DWaveSolvers
 
 # def getConnectionDetails(): 
@@ -33,8 +34,13 @@ def getRoute(n,k,algo):
        return DWaveSolver(n,k, "fullqubo")
 def getRandomNodesFromDb(n):
     nodeMap = {}
+    locations = list(db.locations.find().limit(n))
+    print("Locations: ", locations)
+    addresses = []
+    for loc in locations:
+        addresses.append(loc['location'])
     # addresses = ['Los Angeles', 'Sacramento', 'Charlotte', 'San Jose', 'San Diego']
-    addresses = ['San Jose','Milpitas', 'Palo Alto', 'Fremont']
+    #addresses = ['San Jose','Milpitas', 'Palo Alto', 'Fremont']
     # addresses = ['Milpitas', 'Palo Alto', 'San Jose', 'Fremont']
     geolocator = Nominatim(user_agent="VRP Using QC")
     xc = np.zeros([n])
@@ -352,7 +358,12 @@ def DWaveSolver(n,k, algo):
     destinations = np.zeros((n-1), dtype=int)
     for i in range(1, n):
         destinations[i-1] = i
-    addresses = ['San Jose', 'Menlo Park', 'Sunnyvale', 'Cupertino', 'Milpitas', 'Palo Alto']
+    locations = list(db.locations.find().limit(n))
+    print("Locations: ", locations)
+    addresses = []
+    for loc in locations:
+        addresses.append(loc['location'])
+    #addresses = ['San Jose', 'Menlo Park', 'Sunnyvale', 'Cupertino', 'Milpitas', 'Palo Alto']
     nodes_num = len(sources) + len(destinations)
 
     # Parameters for solve function.
