@@ -13,7 +13,8 @@ class QuantumFlow extends Component {
 				{
 					title: (
 						<h1>
-							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) USING QUANTUM COMPUTING! 
+							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) USING QUANTUM
+							COMPUTING!
 						</h1>
 					),
 				},
@@ -51,8 +52,12 @@ class QuantumFlow extends Component {
 			],
 			dwavedata: [
 				{
-					title:
-						"Steps in solving the Vehicle Routing Problem (VRP) using Quantum Computing!",
+					title: (
+						<h1>
+							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) USING QUANTUM
+							COMPUTING!
+						</h1>
+					),
 				},
 				{
 					title: "Define Combinatorial Problem",
@@ -85,6 +90,39 @@ class QuantumFlow extends Component {
 						"The final result will have the order of nodes to be traversed along with the optimized cost function.",
 				},
 			],
+			cplexdata: [
+				{
+					title: (
+						<h1>
+							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) CLASSICALLY!
+						</h1>
+					),
+				},
+				{
+					title: "IBM ILOG CPLEX",
+					definition: "For a classical solution, we use IBM ILOG CPLEX",
+				},
+				{
+					title: "Define a classical optimizer",
+					definition:
+						"The Classical Optimizer class encodes the problem in a way that CPLEX can solve, and then instantiate the class and solve it",
+				},
+				{
+					title: "Finding classical solution",
+					definition:
+						"CPLEX uses a branch-and-bound-and-cut method to find an approximate solution of the VRP, which, in this formulation, is a mixed-integer linear program (MILP). ",
+				},
+				{
+					title: "Calculating optimal cost",
+					definition:
+						"For the sake of notation, we pack the decision variables in one vector as 𝐳=[𝑥01,𝑥02,…,𝑥10,𝑥12,…,𝑥𝑛(𝑛−1)]𝑇, wherein 𝐳∈{0,1}𝑁, with 𝑁=𝑛(𝑛+1). So the dimension of the problem scales quadratically with the number of nodes. Let us denote the optimal solution by 𝐳∗, and the associated optimal cost 𝑓∗.",
+				},
+				{
+					title: "Get Results",
+					definition:
+						"The final result will have the order of nodes to be traversed along with the optimized cost function.",
+				},
+			],
 		};
 	}
 	openPanel = () => {
@@ -109,7 +147,7 @@ class QuantumFlow extends Component {
 		this.setState({ show: false });
 	};
 	render() {
-		const { data, dwavedata } = this.state;
+		const { data, dwavedata, cplexdata } = this.state;
 		const Details = data.map((entry) => (
 			<Carousel.Item>
 				<img
@@ -136,8 +174,28 @@ class QuantumFlow extends Component {
 				</Carousel.Caption>
 			</Carousel.Item>
 		));
+		const cplexDetails = cplexdata.map((entry) => (
+			<Carousel.Item>
+				<img
+					className="d-block w-100 mx-auto"
+					src={img_path}
+					alt="First slide"
+				/>
+				<Carousel.Caption>
+					<h2>{entry.title}</h2>
+					<p>{entry.definition}</p>
+				</Carousel.Caption>
+			</Carousel.Item>
+		));
 		var modalview = null;
 		const algo = localStorage.getItem("algo");
+		if (algo == "CPLEX") {
+			modalview = (
+				<Carousel fade style={{ width: "35rem" }}>
+					{cplexDetails}
+				</Carousel>
+			);
+		}
 		if (algo == "QAOA" || algo == "VQE") {
 			modalview = (
 				<Carousel fade style={{ width: "35rem" }}>
