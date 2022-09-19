@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 import { Tooltip } from "reactstrap";
 //create the Navbar Component
@@ -15,6 +15,7 @@ class Navbar extends Component {
 			show: false,
 			str: "",
 			showpop: false,
+			loading: false,
 		};
 	}
 
@@ -45,16 +46,21 @@ class Navbar extends Component {
 			show: true,
 		});
 	};
-	handleQuantumBackends = () => {
+	handleQuantumBackends = async () => {
 		this.setState({
 			showpop: true,
 		});
-		axios.get("http://127.0.0.1:5000/getConnectionDetails").then((response) => {
-			console.log(response);
-			this.setState({
-				str: response.data.list,
+		await axios
+			.get("http://127.0.0.1:5000/getConnectionDetails")
+			.then((response) => {
+				console.log(response);
+				this.setState({
+					str: response.data.list,
+				});
+				this.setState({
+					loading: true,
+				});
 			});
-		});
 	};
 	handleModalClose = () => {
 		this.setState({ show: false });
@@ -65,6 +71,24 @@ class Navbar extends Component {
 	render() {
 		var modalview = null;
 		var quantummodal = null;
+		if (this.state.showpop) {
+			quantummodal = (
+				<Modal show="true">
+					<Modal.Body>
+						<Button variant="success" disabled>
+							<Spinner
+								as="span"
+								animation="grow"
+								size="sm"
+								role="status"
+								aria-hidden="true"
+							/>
+							Loading...
+						</Button>
+					</Modal.Body>
+				</Modal>
+			);
+		}
 		if (
 			this.state.showpop &&
 			this.state.str != null &&
@@ -97,16 +121,8 @@ class Navbar extends Component {
 				<Modal show="true">
 					<Modal.Body>
 						<h4>
-							Your Connection is Successful. Now connected to Qiskit and D-wave
-							quantum computer!
+							Your Connection is Successful. Now connected quantum computer!
 						</h4>
-						{/* {this.state.str.map((str1) => {
-							return (
-								<div>
-									<p> {str1}</p>
-								</div>
-							);
-						})} */}
 						<div className="infoPanel">
 							<Button variant="success" onClick={this.handleModalClose}>
 								{" "}
