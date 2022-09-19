@@ -402,7 +402,7 @@ def DWaveSolver(n,k, algo):
         solver = DBScanSolver(problem, anti_noiser = False, max_len = 25)
     if algo == "fullqubo":
         solver = FullQuboSolver(problem)
-    solution = solver.solve(only_one_const, order_const, solver_type = 'cpu')
+    solution = solver.solve(only_one_const, order_const, solver_type = 'qpu')
 
     # Checking if solution is correct.
     if solution == None or solution.check() == False:
