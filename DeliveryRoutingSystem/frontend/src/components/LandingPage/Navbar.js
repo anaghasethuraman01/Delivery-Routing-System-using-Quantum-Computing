@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
+import { Tooltip } from "reactstrap";
 //create the Navbar Component
 class Navbar extends Component {
 	constructor(props) {
@@ -13,6 +14,7 @@ class Navbar extends Component {
 		this.state = {
 			show: false,
 			str: "",
+			showpop: false,
 		};
 	}
 
@@ -42,6 +44,11 @@ class Navbar extends Component {
 		this.setState({
 			show: true,
 		});
+	};
+	handleQuantumBackends = () => {
+		this.setState({
+			showpop: true,
+		});
 		axios.get("http://127.0.0.1:5000/getConnectionDetails").then((response) => {
 			console.log(response);
 			this.setState({
@@ -52,17 +59,23 @@ class Navbar extends Component {
 	handleModalClose = () => {
 		this.setState({ show: false });
 	};
+	handleQuantumModalClose = () => {
+		this.setState({ showpop: false });
+	};
 	render() {
 		var modalview = null;
+		var quantummodal = null;
 		if (
-			this.state.show &&
+			this.state.showpop &&
 			this.state.str != null &&
 			this.state.str.length != 0
 		) {
-			modalview = (
+			quantummodal = (
 				<Modal show="true">
 					<Modal.Body>
-						<h4>Connection Successful : Available quantum cloud backends</h4>
+						<h4>
+							<u>Available quantum cloud backends</u>
+						</h4>
 						{this.state.str.map((str1) => {
 							return (
 								<div>
@@ -70,10 +83,40 @@ class Navbar extends Component {
 								</div>
 							);
 						})}
-						<Button variant="success" onClick={this.handleModalClose}>
+
+						<Button variant="success" onClick={this.handleQuantumModalClose}>
 							{" "}
 							OK
 						</Button>
+					</Modal.Body>
+				</Modal>
+			);
+		}
+		if (this.state.show) {
+			modalview = (
+				<Modal show="true">
+					<Modal.Body>
+						<h4>
+							Your Connection is Successful. Now connected to Qiskit and D-wave
+							quantum computer!
+						</h4>
+						{/* {this.state.str.map((str1) => {
+							return (
+								<div>
+									<p> {str1}</p>
+								</div>
+							);
+						})} */}
+						<div className="infoPanel">
+							<Button variant="success" onClick={this.handleModalClose}>
+								{" "}
+								OK
+							</Button>
+							<Button variant="success" onClick={this.handleQuantumBackends}>
+								{" "}
+								Available Quantum Backends
+							</Button>
+						</div>
 					</Modal.Body>
 				</Modal>
 			);
@@ -151,7 +194,8 @@ class Navbar extends Component {
 									<span style={{ color: "green" }}>Planner</span>
 								</h1>
 								{sessionAvail}
-								<div className="connectbtn">{modalview}</div>
+								{modalview}
+								{quantummodal}
 							</div>
 						</div>
 					</div>
