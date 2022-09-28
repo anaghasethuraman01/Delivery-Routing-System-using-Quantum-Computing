@@ -7,6 +7,7 @@ import { Input, Label } from "reactstrap";
 import { Button, Card, ListGroup, Container } from "react-bootstrap";
 import Navbar from "../LandingPage/Navbar";
 import QuantumFlow from "../Home/QuantumFlow";
+import Graphs from "../Home/Graphs";
 //Define a Login Component
 function Screen(props) {
 	//call the constructor method
@@ -20,7 +21,7 @@ function Screen(props) {
 	const [yc, setYc] = useState(props.location.state.yc);
 	localStorage.setItem("algo", algo);
 	const nodesLoc = [];
-	for (let i = 0; i < Object.keys(nodeMap).length; i++) {
+	for (let i = 1; i < Object.keys(nodeMap).length; i++) {
 		let ar = [];
 		ar.push(nodeMap[i]);
 		nodesLoc.push(ar);
@@ -92,7 +93,8 @@ function Screen(props) {
 			</Button>
 
 			<QuantumFlow></QuantumFlow>
-
+			<br></br>
+			<Graphs></Graphs>
 			{algo != "CPLEX" ? (
 				<div className="rowMain">
 					<div className="col1">

@@ -12,10 +12,10 @@ class QuantumFlow extends Component {
 			data: [
 				{
 					title: (
-						<h1>
+						<h4>
 							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) USING QUANTUM
 							COMPUTING!
-						</h1>
+						</h4>
 					),
 				},
 				{
@@ -53,10 +53,10 @@ class QuantumFlow extends Component {
 			dwavedata: [
 				{
 					title: (
-						<h1>
+						<h3>
 							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) USING QUANTUM
 							COMPUTING!
-						</h1>
+						</h3>
 					),
 				},
 				{
