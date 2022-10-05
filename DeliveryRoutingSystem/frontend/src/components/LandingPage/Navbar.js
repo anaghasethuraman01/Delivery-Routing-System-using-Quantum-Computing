@@ -34,6 +34,13 @@ class Navbar extends Component {
 		const { history } = this.props;
 		history.push("/home");
 	};
+	goCompare = (e) => {
+		e.preventDefault();
+		window.localStorage.clear();
+		localStorage.setItem("pageFind", "home");
+		const { history } = this.props;
+		history.push("/compare");
+	};
 	goInfoPage = (e) => {
 		e.preventDefault();
 		window.localStorage.clear();
@@ -183,6 +190,9 @@ class Navbar extends Component {
 						>
 							InfoPage
 						</Button> */}
+						<Button className="comparebtn" variant="light" onClick={this.goCompare}>
+							View Performance Comparison
+						</Button>
 						<Button className="conectbtn" variant="light" onClick={this.goHome}>
 							Home
 						</Button>

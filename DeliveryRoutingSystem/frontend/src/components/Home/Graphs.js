@@ -40,22 +40,22 @@ class Graphs extends Component{
             {
                 name: '(15, 5)',
                 DWave: 75.489,
-                Classical: 0.126
+                Classical: 2.126
             },
             {
                 name: '(20, 6)',
                 DWave: 17.292,
-                Classical: 0.102
+                Classical: 10.102
             },
             {
                 name: '(25, 8)',
                 DWave: 27.162,
-                Classical: 1.182
+                Classical: 30.182
             },
             {
                 name: '(30, 10)',
-                DWave: 65.728,
-                Classical: 1.902
+                DWave: 30.728,
+                Classical: 45.902
             }]
         }
     }
@@ -63,6 +63,7 @@ class Graphs extends Component{
         const { data } = this.state;
         return (
                 <div>
+                    <br></br>
                 <div style={{ textAlign: "center" }}>   
                     <h4>Computing Platform Performance</h4>
                 </div>

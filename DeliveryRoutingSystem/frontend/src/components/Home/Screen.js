@@ -93,8 +93,6 @@ function Screen(props) {
 			</Button>
 
 			<QuantumFlow></QuantumFlow>
-			<br></br>
-			<Graphs></Graphs>
 			{algo != "CPLEX" ? (
 				<div className="rowMain">
 					<div className="col1">
