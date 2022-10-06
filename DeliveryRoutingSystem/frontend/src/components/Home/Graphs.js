@@ -67,7 +67,7 @@ class Graphs extends Component{
                 <div style={{ textAlign: "center" }}>   
                     <h4>Computing Platform Performance</h4>
                 </div>
-               <ResponsiveContainer width="80%" height="30%" aspect={3}>
+               <ResponsiveContainer width="90%" height="70%" aspect={3}>
                 <LineChart data={data} margin={{ left: 100 }}>
                     <CartesianGrid fill="#F2F4F4"/>
                     <XAxis dataKey="name" label={{ value: '(Number of destinations, Number of vehicles)', position:'insideBottomLeft', dy:20}}

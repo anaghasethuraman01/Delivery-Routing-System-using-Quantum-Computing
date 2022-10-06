@@ -6,6 +6,7 @@ import { Redirect } from "react-router";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 import { Tooltip } from "reactstrap";
+import Graphs from "../Home/Graphs";
 //create the Navbar Component
 class Navbar extends Component {
 	constructor(props) {
@@ -16,6 +17,7 @@ class Navbar extends Component {
 			str: "",
 			showpop: false,
 			loading: false,
+			showCompare: false,
 		};
 	}
 
@@ -53,6 +55,11 @@ class Navbar extends Component {
 			show: true,
 		});
 	};
+	comparePopup = () => {
+		this.setState({
+			showCompare: true,
+		});
+	};
 	handleQuantumBackends = async () => {
 		this.setState({
 			showpop: true,
@@ -72,12 +79,16 @@ class Navbar extends Component {
 	handleModalClose = () => {
 		this.setState({ show: false });
 	};
+	handleCompareModalClose = () => {
+		this.setState({ showCompare: false });
+	};
 	handleQuantumModalClose = () => {
 		this.setState({ showpop: false });
 	};
 	render() {
 		var modalview = null;
 		var quantummodal = null;
+		var compareView = null;
 		if (this.state.showpop) {
 			quantummodal = (
 				<Modal show="true">
@@ -144,6 +155,21 @@ class Navbar extends Component {
 				</Modal>
 			);
 		}
+		if (this.state.showCompare) {
+			compareView = (
+				<Modal show="true" dialogClassName='modal-container'>
+					<Modal.Body>
+						<Graphs></Graphs>
+						<div style={{ textAlign: "center" }}>
+							<Button variant="success" onClick={this.handleCompareModalClose}>
+								{" "}
+								Close
+							</Button>
+						</div>
+					</Modal.Body>
+				</Modal>
+			);
+		}
 		redirectVar = <Redirect to="/login" />;
 		const userSession = localStorage.getItem("pageFind");
 		let sessionAvail = null;
@@ -190,7 +216,7 @@ class Navbar extends Component {
 						>
 							InfoPage
 						</Button> */}
-						<Button className="comparebtn" variant="light" onClick={this.goCompare}>
+						<Button className="comparebtn" variant="light" onClick={this.comparePopup}>
 							View Performance Comparison
 						</Button>
 						<Button className="conectbtn" variant="light" onClick={this.goHome}>
@@ -226,6 +252,7 @@ class Navbar extends Component {
 						</div>
 					</div>
 				</nav>
+				{compareView}
 			</div>
 		);
 	}

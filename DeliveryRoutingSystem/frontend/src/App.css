@@ -152,6 +152,12 @@
   text-decoration: none;
 }
 
+.modal-container {
+  height: 80vh;
+  width: 90vw;
+  max-width: none !important;
+}
+
 .errorMsg {
   color: red;
   font-size: 17px;

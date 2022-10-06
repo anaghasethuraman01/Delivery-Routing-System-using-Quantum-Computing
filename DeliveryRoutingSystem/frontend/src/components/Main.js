@@ -20,7 +20,6 @@ class Main extends Component {
 					<Route path="/register" component={Register} />
 					<Route path="/login" component={Login} />
 					<Route path="/home" component={Home} />
-					<Route path="/compare" component={Graphs} />
 					{/* <Route path="/maps" component={Maps}/>  */}
 					<Route path="/results" component={Results} />
 					<Route path="/screen" component={Screen} />
