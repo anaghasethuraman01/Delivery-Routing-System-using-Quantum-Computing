@@ -7,55 +7,45 @@ class Graphs extends Component{
         data : [
             {
                 name: '(3, 1)',
-                DWave: 11.982,
-                Classical: 0.024,
-                Qiskit: 1.504
+                DWave: 46.56,
+                Classical: 24,
+                Qiskit: 1504
             },
             {
                 name: '(4, 1)',
-                DWave: 4.048,
-                Classical: 0.026,
-                Qiskit: 51.437
+                DWave: 40.48,
+                Classical: 26,
+                Qiskit: 3437
             },
             {
-                name: '(5, 1)',
-                DWave: 7.231,
-                Classical: 0.068
-            },
-            {
-                name: '(6, 2)',
-                DWave: 30.805,
-                Classical: 0.031
-            },
-            {
-                name: '(8, 3)',
-                DWave: 32.012,
-                Classical: 0.045
-            },
-            {
-                name: '(10, 4)',
-                DWave: 46.428,
-                Classical: 0.062
+                name: '(6, 3)',
+                DWave: 36.6,
+                Classical: 20
             },
             {
                 name: '(15, 5)',
-                DWave: 75.489,
-                Classical: 2.126
+                DWave: 950,
+                Classical: 450
             },
             {
                 name: '(20, 6)',
-                DWave: 17.292,
-                Classical: 10.102
-            },
-            {
-                name: '(25, 8)',
-                DWave: 27.162,
-                Classical: 30.182
+                DWave: 277,
+                Classical: 702
             },
             {
                 name: '(30, 10)',
-                DWave: 30.728,
-                Classical: 45.902
+                DWave: 998,
+                Classical: 1039
+            },
+            {
+                name: '(40, 10)',
+                DWave: 1051,
+                Classical: 2393
+            },
+            {
+                name: '(50, 10)',
+                DWave: 2695,
+                Classical: 3038
             }]
         }
     }
@@ -72,7 +62,7 @@ class Graphs extends Component{
                     <CartesianGrid fill="#F2F4F4"/>
                     <XAxis dataKey="name" label={{ value: '(Number of destinations, Number of vehicles)', position:'insideBottomLeft', dy:20}}
                         interval={'preserveStartEnd'} />
-                    <YAxis label={{ value: 'Execution time in seconds', angle: -90, position: 'insideLeft', dy: 60 }}></YAxis>
+                    <YAxis label={{ value: 'Execution time in milliseconds', angle: -90, position: 'insideLeft', dy: 60 }}></YAxis>
                     <Legend />
                     <Tooltip />
                     <Line dataKey="DWave"

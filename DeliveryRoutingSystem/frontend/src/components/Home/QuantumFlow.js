@@ -93,9 +93,9 @@ class QuantumFlow extends Component {
 			cplexdata: [
 				{
 					title: (
-						<h1>
+						<h3>
 							STEPS IN SOLVING THE VEHICLE ROUTING PROBLEM (VRP) CLASSICALLY!
-						</h1>
+						</h3>
 					),
 				},
 				{
