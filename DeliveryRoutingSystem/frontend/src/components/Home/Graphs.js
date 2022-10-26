@@ -55,7 +55,7 @@ class Graphs extends Component{
                 <div>
                     <br></br>
                 <div style={{ textAlign: "center" }}>   
-                    <h4>Computing Platform Performance</h4>
+                    <h4>Computing Platform Performance Comparison</h4>
                 </div>
                <ResponsiveContainer width="90%" height="70%" aspect={3}>
                 <LineChart data={data} margin={{ left: 100 }}>

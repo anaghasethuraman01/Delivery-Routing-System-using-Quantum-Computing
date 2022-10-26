@@ -43,7 +43,7 @@ function Screen(props) {
 			}}
 		>
 			<Card style={{ width: "18rem", margin: "0.8em" }}>
-				<Card.Header>Destinations</Card.Header>
+				<Card.Header><b>Destinations</b></Card.Header>
 				{nodeTr}
 			</Card>
 		</Container>
@@ -106,27 +106,27 @@ function Screen(props) {
 							>
 								{algo == "QAOA" || algo == "VQE" ? (
 									<Card style={{ width: "18rem", margin: "0.8em" }}>
-										<Card.Header>Quantum Environment</Card.Header>
+										<Card.Header><b>Quantum Environment</b></Card.Header>
 										<ListGroup variant="flush">
 											<ListGroup.Item>IBM Qiskit</ListGroup.Item>
 										</ListGroup>
 									</Card>
 								) : (
 									<Card style={{ width: "18rem", margin: "0.8em" }}>
-										<Card.Header>Quantum Environment</Card.Header>
+										<Card.Header><b>Quantum Environment</b></Card.Header>
 										<ListGroup variant="flush">
 											<ListGroup.Item>D-Wave</ListGroup.Item>
 										</ListGroup>
 									</Card>
 								)}
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Algorithm Used</Card.Header>
+									<Card.Header><b>Algorithm Used</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>{algo}</ListGroup.Item>
 									</ListGroup>
 								</Card>
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Quantum Cost</Card.Header>
+									<Card.Header><b>Quantum Cost</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>
 											{props.location.state.quantum_cost.toFixed(2)}
@@ -134,7 +134,7 @@ function Screen(props) {
 									</ListGroup>
 								</Card>
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Qubits</Card.Header>
+									<Card.Header><b>Qubits</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>{qubits}</ListGroup.Item>
 									</ListGroup>
@@ -155,13 +155,13 @@ function Screen(props) {
 								}}
 							>
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Source</Card.Header>
+									<Card.Header><b>Source</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>{nodeMap[0]}</ListGroup.Item>
 									</ListGroup>
 								</Card>
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Number of vehicles</Card.Header>
+									<Card.Header><b>Number of vehicles</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>{xc.length}</ListGroup.Item>
 									</ListGroup>
@@ -183,13 +183,13 @@ function Screen(props) {
 								}}
 							>
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Algorithm Used</Card.Header>
+									<Card.Header><b>Algorithm Used</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>{algo}</ListGroup.Item>
 									</ListGroup>
 								</Card>
 								<Card style={{ width: "18rem", margin: "0.8em" }}>
-									<Card.Header>Classical cost</Card.Header>
+									<Card.Header><b>Classical cost</b></Card.Header>
 									<ListGroup variant="flush">
 										<ListGroup.Item>
 											{props.location.state.classical_cost.toFixed(2)}
