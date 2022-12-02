@@ -1,12 +1,12 @@
 # Delivery Routing System using Quantum Computing
 
-## Team Members
+### Team Members
 - Anagha Sethuraman
 - Deepak Vellore Karunamoorthy
 - Komal Joshi
 - Sherin Thlakulathil Elias
 
-##  Project Advisor
+###  Project Advisor
 Prof. Dan Harkey
 
 **GOAL OF THE PROJECT**
